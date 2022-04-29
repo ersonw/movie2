@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie2/BottomAppBarState.dart';
 import 'package:movie2/SplashPage.dart';
 
 class MyApp extends StatelessWidget {
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashPage(),
+      // home: SplashPage(),
+      home: BottomAppBarState(),
     );
   }
 }

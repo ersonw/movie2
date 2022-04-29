@@ -28,6 +28,7 @@ class _BottomAppBarState extends State<BottomAppBarState> {
     // _eachView.add(const RecommendedPage());
     // _eachView.add(const MyProfile());
     // _eachView.add(const GamePage());
+    _eachView.add(Container());
   }
   Future<void> _popUps(BuildContext context)async {
     // Map<String, dynamic> parm = { };
