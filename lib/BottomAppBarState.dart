@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie2/AssetsIcon.dart';
 import 'package:path/path.dart';
 
 import 'Global.dart';
@@ -28,6 +29,10 @@ class _BottomAppBarState extends State<BottomAppBarState> {
     // _eachView.add(const RecommendedPage());
     // _eachView.add(const MyProfile());
     // _eachView.add(const GamePage());
+    _eachView.add(Container());
+    _eachView.add(Container());
+    _eachView.add(Container());
+    _eachView.add(Container());
     _eachView.add(Container());
   }
   Future<void> _popUps(BuildContext context)async {
@@ -80,96 +85,112 @@ class _BottomAppBarState extends State<BottomAppBarState> {
     // Global.showLockScreen();
     return Scaffold(
       body: _eachView[_index],
-      floatingActionButton: FloatingActionButton(
-        ///响应事件,push 生成新的页面，即点击中间的按钮跳转的页面
-        onPressed: () {
-          setState(() {
-            _index = 4;
-          });
-        },
-
-        ///长按
-        // tooltip: "狗哥最帅",
-        // child: Image.asset(ImageIcons.game),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   ///响应事件,push 生成新的页面，即点击中间的按钮跳转的页面
+      //   onPressed: () {
+      //     setState(() {
+      //       _index = 4;
+      //     });
+      //   },
+      //
+      //   ///长按
+      //   // tooltip: "狗哥最帅",
+      //   // child: Image.asset(ImageIcons.game),
+      // ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+        color: const Color(0xff201e2b),
         shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            // InkWell(
-            //     child: SizedBox(
-            //       height: 60,
-            //       child: Column(
-            //         children: [
-            //           Image.asset(_index == 0 ? ImageIcons.home_active : ImageIcons.home,width: _index == 0 ? 30 : 25,),
-            //           const Text("首页",style: TextStyle()),
-            //         ],
-            //       ),
-            //     ),
-            //     onTap: (){
-            //       setState(() {
-            //         _index = 0;
-            //       });
-            //     }
-            // ),
-            // InkWell(
-            //     child: SizedBox(
-            //       height: 60,
-            //       child: Column(
-            //         children: [
-            //           Image.asset(_index == 1 ? ImageIcons.past_active : ImageIcons.past,width: _index == 1 ? 30 : 25,),
-            //           const Text("狼友推荐",style: TextStyle()),
-            //         ],
-            //       ),
-            //     ),
-            //     onTap: (){
-            //       setState(() {
-            //         _index = 1;
-            //       });
-            //     }
-            // ),
+            InkWell(
+                child: SizedBox(
+                  height: 60,
+                  child: Column(
+                    children: [
+                      Image.asset(_index == 0 ? AssetsIcon.indexActiveIcon : AssetsIcon.indexIcon,width: _index == 0 ? 30 : 25,),
+                      const Text("首页",style: TextStyle()),
+                    ],
+                  ),
+                ),
+                onTap: (){
+                  setState(() {
+                    _index = 0;
+                  });
+                }
+            ),
+            InkWell(
+                child: SizedBox(
+                  height: 60,
+                  child: Column(
+                    children: [
+                      Image.asset(_index == 1 ? AssetsIcon.videoActiveIcon : AssetsIcon.videoIcon,width: _index == 1 ? 30 : 25,),
+                      const Text("抖阴",style: TextStyle()),
+                    ],
+                  ),
+                ),
+                onTap: (){
+                  setState(() {
+                    _index = 1;
+                  });
+                }
+            ),
             // const Padding(padding: EdgeInsets.only(left: 10)),
-            // InkWell(
-            //     child: SizedBox(
-            //       height: 60,
-            //       child: Column(
-            //         children: [
-            //           Image.asset(_index == 2 ? ImageIcons.everyDay_active : ImageIcons.everyDay,width: _index == 2 ? 30 : 25,),
-            //           const Text("推荐",style: TextStyle()),
-            //         ],
-            //       ),
-            //     ),
-            //     onTap: (){
-            //       setState(() {
-            //         _index = 2;
-            //       });
-            //     }
-            // ),
-            // InkWell(
-            //     child: SizedBox(
-            //       height: 60,
-            //       child: Column(
-            //         children: [
-            //           Image.asset(_index == 3 ? ImageIcons.user_active : ImageIcons.user,width: _index == 3 ? 30 : 25,),
-            //           const Text("我的",style: TextStyle()),
-            //         ],
-            //       ),
-            //     ),
-            //     onTap: (){
-            //       setState(() {
-            //         _index = 3;
-            //       });
-            //     }
-            // ),
+            InkWell(
+                child: SizedBox(
+                  height: 60,
+                  child: Column(
+                    children: [
+                      Image.asset(_index == 2 ? AssetsIcon.gameActiveIcon : AssetsIcon.gameIcon,width: _index == 2 ? 30 : 25,),
+                      const Text("游戏",style: TextStyle()),
+                    ],
+                  ),
+                ),
+                onTap: (){
+                  setState(() {
+                    _index = 2;
+                  });
+                }
+            ),
+            InkWell(
+                child: SizedBox(
+                  height: 60,
+                  child: Column(
+                    children: [
+                      Image.asset(_index == 3 ? AssetsIcon.likeActiveIcon : AssetsIcon.likeIcon,width: _index == 3 ? 30 : 25,),
+                      const Text("喜欢",style: TextStyle()),
+                    ],
+                  ),
+                ),
+                onTap: (){
+                  setState(() {
+                    _index = 3;
+                  });
+                }
+            ),
+            InkWell(
+                child: SizedBox(
+                  height: 60,
+                  child: Column(
+                    children: [
+                      Image.asset(_index == 4 ? AssetsIcon.myActiveIcon : AssetsIcon.myIcon,width: _index == 4 ? 30 : 25,),
+                      const Text("我的",style: TextStyle()),
+                    ],
+                  ),
+                ),
+                onTap: (){
+                  setState(() {
+                    _index = 4;
+                  });
+                }
+            ),
           ],
         ),
       ),
 
       ///将FloatActionButton 与 BottomAppBar 融合到一起
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
