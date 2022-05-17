@@ -15,6 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
+import 'WebViewExample.dart';
 import 'data/Profile.dart';
 import 'dart:ui' as ui;
 import 'package:encrypt/encrypt.dart' as XYQ;
@@ -53,6 +54,15 @@ class Global {
       print(packageInfo.buildNumber);
     }
     runApp(const MyApp());
+  }
+  static void openWebview(String data, {bool? inline}){
+    Navigator.push(
+      mainContext,
+      CupertinoPageRoute(
+        title: inline== true ? '':'非官方网址，谨防假冒!',
+        builder: (context) => WebViewExample(url: data, inline: inline,),
+      ),
+    );
   }
   static Future<void> installHandler(Map<String, dynamic> data) async {
     // print(data['channelCode']);

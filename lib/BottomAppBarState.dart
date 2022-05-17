@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie2/AssetsIcon.dart';
-import 'package:path/path.dart';
+
+import 'AssetsIcon.dart';
+import 'IndexPage.dart';
 
 import 'Global.dart';
 
@@ -29,7 +27,7 @@ class _BottomAppBarState extends State<BottomAppBarState> {
     // _eachView.add(const RecommendedPage());
     // _eachView.add(const MyProfile());
     // _eachView.add(const GamePage());
-    _eachView.add(Container());
+    _eachView.add(IndexPage());
     _eachView.add(Container());
     _eachView.add(Container());
     _eachView.add(Container());

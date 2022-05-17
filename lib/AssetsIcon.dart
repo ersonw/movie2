@@ -2,16 +2,16 @@
 class AssetsIcon {
 
   static const String gameIcon = ('assets/icons/gameIcon.png');
-  static const String indexIcon = ('assets/icons/indexActiveIcon.png');
+  static const String indexIcon = ('assets/icons/indexIcon.png');
   static const String likeIcon = ('assets/icons/likeIcon.png');
   static const String videoIcon = ('assets/icons/videoIcon.png');
   static const String myIcon = ('assets/icons/myIcon.png');
 
-  static const String myActiveIcon = ('assets/icons/myIcon.png');
-  static const String gameActiveIcon = ('assets/icons/gameIcon.png');
+  static const String myActiveIcon = ('assets/icons/myActiveIcon.png');
+  static const String gameActiveIcon = ('assets/icons/gameActiveIcon.png');
   static const String indexActiveIcon = ('assets/icons/indexActiveIcon.png');
-  static const String likeActiveIcon = ('assets/icons/likeIcon.png');
-  static const String videoActiveIcon = ('assets/icons/videoIcon.png');
+  static const String likeActiveIcon = ('assets/icons/likeActiveIcon.png');
+  static const String videoActiveIcon = ('assets/icons/videoActiveIcon.png');
 
   static const String jingPinIcon = ('assets/icons/jingPinIcon.png');
   static const String classIcon = ('assets/icons/classIcon.png');
