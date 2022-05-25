@@ -79,7 +79,8 @@ class _BottomAppBarState extends State<BottomAppBarState> {
   @override
   Widget build(BuildContext context) {
     _init(context);
-
+    // print(Global.codeInvite);
+    // print(Global.channelCode);
     // Global.showLockScreen();
     return Scaffold(
       body: _eachView[_index],

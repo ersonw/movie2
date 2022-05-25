@@ -31,8 +31,8 @@ class Global {
   static bool initMain = false;
   static late BuildContext mainContext;
 
-  static String codeInvite = '';
-  static String channelCode = '';
+  static String? codeInvite = '';
+  static String? channelCode = '';
   static const String mykey = 'e797e49a5f21d99840c3a07dee2c3c7c';
   static const String myiv = 'e797e49a5f21d99840c3a07dee2c3c7a';
   static Future init() async {

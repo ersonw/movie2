@@ -4,25 +4,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:movie2/AssetsIcon.dart';
-import 'package:movie2/SearchPage.dart';
-import 'package:movie2/tools/CustomRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
 import'dart:html';
 import'dart:js' as js;
 import 'Global.dart';
 import 'data/SwiperData.dart';
 
-class IndexPage extends StatefulWidget {
-  const IndexPage({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
-  _IndexPage createState() => _IndexPage();
+  _SearchPage createState() => _SearchPage();
 
 }
-class _IndexPage extends State<IndexPage>{
+class _SearchPage extends State<SearchPage>{
   final TextEditingController _textEditingController = TextEditingController();
   List<SwiperData> _swipers = [];
-  String _text = '搜索您喜欢的内容';
+  String _text = '';
 
   @override
   void initState() {
@@ -78,26 +76,39 @@ class _IndexPage extends State<IndexPage>{
                 children: [
                   const Padding(padding: EdgeInsets.only(left: 20,)),
                   Center(child: Image.asset(AssetsIcon.searchTag,height: 15,),),
-                  InkWell(
-                    child: Container(
-                      width: ((MediaQuery.of(context).size.width) / 1.5),
-                      margin: const EdgeInsets.only(top: 10,bottom: 10),
-                      alignment: Alignment.center,
-                      child: Text(_text,style: const TextStyle(fontSize: 13),),
+                  Flexible(
+                    child: TextField(
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      controller: _textEditingController,
+                      autofocus: true,
+                      // style: TextStyle(color: Colors.white38),
+                      onEditingComplete: () {
+                      },
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.search,
+                      decoration: const InputDecoration(
+                        hintText: '搜索您喜欢的内容',
+                        hintStyle: TextStyle(color: Colors.white30,fontSize: 13,fontWeight: FontWeight.bold),
+                        border: InputBorder.none,
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        contentPadding: EdgeInsets.only(top: 14,bottom: 14),
+                        isDense: true,
+                      ),
                     ),
-                    onTap: (){
-                      Navigator.push(context, FadeRoute(page: SearchPage()));
-                    },
                   ),
                 ]
             ),
           ),
         ),
         InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.pop(context);
+          },
           child: Container(
             margin: const EdgeInsets.only(right: 10,),
-            child: Image.asset(AssetsIcon.classIcon,width: 40,),
+            child: Text('取消'),
           ),
         ),
       ],
