@@ -43,8 +43,10 @@ android {
                 OPENINSTALL_APPKEY : "z1uhui99",
                 applicationName: "android.app.Application",
         ]
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+//        minSdkVersion flutter.minSdkVersion
+//        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

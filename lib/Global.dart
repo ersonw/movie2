@@ -52,6 +52,14 @@ class Global {
       _openinstallFlutterPlugin.install(installHandler);
       packageInfo = await PackageInfo.fromPlatform();
       print(packageInfo.buildNumber);
+    }else{
+      // import'dart:html';
+      // var uri = Uri.dataFromString(window.location.href);
+      // var queryParameters = uri.queryParameters;
+      // if(queryParameters != null){
+      //   if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
+      //   if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
+      // }
     }
     runApp(const MyApp());
   }

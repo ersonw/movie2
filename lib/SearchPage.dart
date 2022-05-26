@@ -1,14 +1,12 @@
-import 'dart:html';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:movie2/AssetsIcon.dart';
+import 'package:movie2/data/Word.dart';
 import 'package:url_launcher/url_launcher.dart';
-import'dart:html';
-import'dart:js' as js;
-import 'Global.dart';
-import 'data/SwiperData.dart';
+
+import 'Style/ListStyle.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -17,43 +15,86 @@ class SearchPage extends StatefulWidget {
   _SearchPage createState() => _SearchPage();
 
 }
-class _SearchPage extends State<SearchPage>{
+class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
   final TextEditingController _textEditingController = TextEditingController();
-  List<SwiperData> _swipers = [];
-  String _text = '';
+  final FocusNode _focusNode = FocusNode();
+  late  TabController _innerTabController;
+  final _tabKey = const ValueKey('tab');
+  int tabIndex = 0;
+  List<Word> _words = [];
+  List<Word> _records = [];
+  List<Word> _hotMonth = [];
+  List<Word> _hotYear = [];
 
   @override
   void initState() {
-    SwiperData data = SwiperData();
-    data.image = 'https://23porn.oss-cn-hangzhou.aliyuncs.com/c030c05a-5ca4-4ad9-af02-6048ab526010.png';
-    data.url = data.image;
-    _swipers.add(data);
-    data = SwiperData();
-    data.image = 'https://23porn.oss-cn-hangzhou.aliyuncs.com/d95661e1-b1d2-4363-b263-ef60b965612d.png';
-    data.url = data.image;
-    _swipers.add(data);
-    if(kIsWeb){
-      var uri = Uri.dataFromString(window.location.href);
-      var queryParameters = uri.queryParameters;
-      if(queryParameters != null){
-        if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
-        if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
-      }
-    }
+    Word word  = Word();
+    word.text = '七沢みあ';
+    _words.add(word);
+    word  = Word();
+    word.text = 'めぐり（藤浦めぐ）';
+    _words.add(word);
+    word  = Word();
+    word.text = '夏目彩春';
+    _words.add(word);
+    word  = Word();
+    word.text = '橋本れいか';
+    _words.add(word);
+    word  = Word();
+    word.text = '筧ジュン';
+    word  = Word();
+    word.text = 'めぐり（藤浦めぐ）';
+    _words.add(word);
+    word  = Word();
+    word.text = '夏目彩春';
+    _words.add(word);
+    word  = Word();
+    word.text = '橋本れいか';
+    _words.add(word);
+    word  = Word();
+    word.text = '筧ジュン';
+    word  = Word();
+    word.text = 'めぐり（藤浦めぐ）';
+    _words.add(word);
+    word  = Word();
+    word.text = '夏目彩春';
+    _words.add(word);
+    word  = Word();
+    word.text = '橋本れいか';
+    _words.add(word);
+    word  = Word();
+    word.text = '筧ジュン';
+    _words.add(word);
+    word  = Word();
+    word.text = '筧ジュン';
+    _words.add(word);
+    _records = _words;
+    _hotMonth = _words;
+    _hotYear = _words;
+    int initialIndex = PageStorage.of(context)?.readState(context, identifier: _tabKey);
+    _innerTabController = TabController(
+        length: 2,
+        vsync: this,
+        initialIndex: initialIndex != null ? initialIndex : tabIndex);
+    _innerTabController.addListener(handleTabChange);
     super.initState();
+  }
+  void handleTabChange() {
+    tabIndex = _innerTabController.index;
+    PageStorage.of(context)?.writeState(context, _innerTabController.index, identifier: _tabKey);
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff181921),
-      body: Stack(
-        children: [
-          ListView(
-            children: _buildList(),
-          ),
-        ],
+      body: ListView(
+        children: _buildList(),
       ),
     );
+  }
+  _search(){
+    _focusNode.unfocus();
+    print(_textEditingController.text);
   }
   _buildList(){
     List<Widget> widgets = [];
@@ -78,13 +119,18 @@ class _SearchPage extends State<SearchPage>{
                   Center(child: Image.asset(AssetsIcon.searchTag,height: 15,),),
                   Flexible(
                     child: TextField(
+                      focusNode: _focusNode,
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       controller: _textEditingController,
                       autofocus: true,
                       // style: TextStyle(color: Colors.white38),
                       onEditingComplete: () {
+                        _search();
                       },
+                      // onSubmitted: (String text) {
+                      //   _search();
+                      // },
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.search,
                       decoration: const InputDecoration(
@@ -93,7 +139,7 @@ class _SearchPage extends State<SearchPage>{
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
-                        contentPadding: EdgeInsets.only(top: 14,bottom: 14),
+                        contentPadding: EdgeInsets.only(top: 10,bottom: 10),
                         isDense: true,
                       ),
                     ),
@@ -113,161 +159,207 @@ class _SearchPage extends State<SearchPage>{
         ),
       ],
     ));
-    if(_swipers.isNotEmpty) {
-      widgets.add(Container(
-        // color: Colors.black,
-        margin: const EdgeInsets.only(top: 15,bottom: 15,left: 20,right: 20),
-        height: 180,
-        child: Swiper(
-          loop: true,
-          autoplay: true,
-          itemCount: _swipers.length,
-          itemBuilder: _buildSwiper,
-          pagination: const SwiperPagination(),
-          control: const SwiperControl(color: Colors.white),
-        ),
-      ));
-    }
-    widgets.add(
-        Container(
-          width: ((MediaQuery.of(context).size.width) / 1),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: (){},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //   image: DecorationImage(
-                      //     image: AssetImage(AssetsIcon.diamondTagBK),
-                      //     fit: BoxFit.fill
-                      //   ),
-                      // ),
-                      width: ((MediaQuery.of(context).size.width) / 5),
-                      child: Center(
-                        child: Image.asset(AssetsIcon.diamondIcon),
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    const Center(child: Text('钻石尊享',style: TextStyle(fontSize: 12),),),
-                  ],
-                ),
+    if(_records.isNotEmpty) {
+      widgets.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              // color: Colors.black,
+              margin: const EdgeInsets.all(20),
+              alignment: Alignment.centerLeft,
+              // height: 180,
+              child: Text('历史记录'),
+            ),
+            InkWell(
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: Center(child: Image.asset(AssetsIcon.clearIcon),),
               ),
-              InkWell(
-                onTap: (){},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //   image: DecorationImage(
-                      //     image: AssetImage(AssetsIcon.diamondTagBK),
-                      //     fit: BoxFit.fill
-                      //   ),
-                      // ),
-                      width: ((MediaQuery.of(context).size.width) / 5),
-                      child: Center(
-                        child: Image.asset(AssetsIcon.jingPinIcon),
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    const Center(child: Text('精品专区',style: TextStyle(fontSize: 12),),),
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: (){},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //   image: DecorationImage(
-                      //     image: AssetImage(AssetsIcon.diamondTagBK),
-                      //     fit: BoxFit.fill
-                      //   ),
-                      // ),
-                      width: ((MediaQuery.of(context).size.width) / 5),
-                      child: Center(
-                        child: Image.asset(AssetsIcon.VIPIcon),
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    const Center(child: Text('VIP专区',style: TextStyle(fontSize: 12),),),
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: (){},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //   image: DecorationImage(
-                      //     image: AssetImage(AssetsIcon.diamondTagBK),
-                      //     fit: BoxFit.fill
-                      //   ),
-                      // ),
-                      width: ((MediaQuery.of(context).size.width) / 5),
-                      child: Center(
-                        child: Image.asset(AssetsIcon.popularIcon),
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 5)),
-                    const Center(child: Text('热门榜单',style: TextStyle(fontSize: 12),),),
-                  ],
-                ),
-              ),
-            ],
-          ),
+              onTap: (){
+                print('test');
+              },
+            ),
+          ],
         )
+      );
+      widgets.add(ListStyle.buildHorizontalList(_records, callback: (int index){
+        if(index < _records.length){
+          _textEditingController.text = _records[index].text;
+        }
+      }));
+    }
+    if(_words.isNotEmpty) {
+      widgets.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              // color: Colors.black,
+              margin: const EdgeInsets.all(20),
+              alignment: Alignment.centerLeft,
+              // height: 180,
+              child: Text('热门标签'),
+            ),
+            InkWell(
+              child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Center(child: Image.asset(AssetsIcon.refreshIcon),),
+                      const Padding(padding: EdgeInsets.only(left: 10)),
+                      Text('换一换'),
+                    ],
+                  ),
+              ),
+              onTap: (){
+                print('test');
+              },
+            ),
+          ],
+        )
+      );
+      widgets.add(ListStyle.buildPhalanxList(_words, MediaQuery.of(context).size.width, callback: (int index){
+      // widgets.add(ListStyle.buildPhalanxList(_words, callback: (int index){
+        if(index < _words.length){
+          _textEditingController.text = _words[index].text;
+        }
+      }));
+    }
+    widgets.add(const Padding(padding: EdgeInsets.only(top: 20)));
+    widgets.add(
+      Container(
+        color: Colors.transparent,
+        height: MediaQuery.of(context).size.height / 2,
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  TabBar(
+                    controller: _innerTabController,
+                    tabs: [
+                      Text('当月热搜榜'),
+                      Text('年度热搜榜'),
+                    ],
+                  ),
+                  Expanded(
+                      child: TabBarView(
+                        controller: _innerTabController,
+                        children: [
+                          _buildHotList(_hotMonth),
+                          _buildHotList(_hotYear),
+                        ],
+                      )),
+                ],
+              ),
+            ),
+          ],
+        )
+      )
     );
     return widgets;
   }
-  Widget _buildSwiper(BuildContext context, int index) {
-    SwiperData _swiper = _swipers[index];
-    return InkWell(
-      onTap: () {
-        _handlerSwiper(_swiper);
-      },
-      child: Container(
-        // height: 120,
-        decoration: BoxDecoration(
-          // color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-          image: DecorationImage(
-            image: NetworkImage(_swiper.image),
-            fit: BoxFit.fill,
-            alignment: Alignment.center,
-          ),
-        ),
-      ),
+  _buildHotList(List<Word> list){
+    List<Widget> widgets = [];
+    for(int i=0;i< list.length;i++){
+      if(i==0){
+        widgets.add(
+          InkWell(
+            onTap: (){
+              _textEditingController.text = list[i].text;
+              _search();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(left: 20,top: 20),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('1',style: TextStyle(color: Colors.deepOrange,fontSize: 18,fontWeight: FontWeight.bold),),
+                    const Padding(padding: EdgeInsets.only(left: 20)),
+                    Text(list[i].text,style: TextStyle(fontSize: 15),),
+                  ]
+              ),
+            ),
+          )
+        );
+      }
+      if(i==1){
+        widgets.add(
+            InkWell(
+              onTap: (){
+                _textEditingController.text = list[i].text;
+                _search();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(left: 20,top: 15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('2',style: TextStyle(color: Colors.orangeAccent,fontSize: 18,fontWeight: FontWeight.bold),),
+                      const Padding(padding: EdgeInsets.only(left: 20)),
+                      Text(list[i].text,style: TextStyle(fontSize: 15),),
+                    ]
+                ),
+              ),
+            )
+
+        );
+      }
+      if(i==2){
+        widgets.add(
+            InkWell(
+              onTap: (){
+                _textEditingController.text = list[i].text;
+                _search();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(left: 20,top: 15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('3',style: TextStyle(color: Colors.blue,fontSize: 18,fontWeight: FontWeight.bold),),
+                      const Padding(padding: EdgeInsets.only(left: 20)),
+                      Text(list[i].text,style: TextStyle(fontSize: 15),),
+                    ]
+                ),
+              ),
+            )
+
+        );
+      }
+      if(i>2){
+        widgets.add(
+            InkWell(
+              onTap: (){
+                _textEditingController.text = list[i].text;
+                _search();
+              },
+              child: Container(
+                margin: const EdgeInsets.only(left: 20,top: 15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('${i}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                      const Padding(padding: EdgeInsets.only(left: 20)),
+                      Text(list[i].text,style: TextStyle(fontSize: 15),),
+                    ]
+                ),
+              ),
+            )
+
+        );
+      }
+    }
+    return ListView(
+      children: widgets,
     );
   }
-  _handlerSwiper(SwiperData data){
-    switch(data.type){
-      case SwiperData.OPEN_WEB_OUTSIDE:
-        launchUrl(Uri.parse(data.url));
-        break;
-      case SwiperData.OPEN_WEB_INSIDE:
-        Global.openWebview(data.url, inline: true);
-        break;
-    }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _innerTabController.dispose();
+    _textEditingController.dispose();
+    super.dispose();
   }
 }

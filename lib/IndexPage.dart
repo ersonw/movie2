@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -7,8 +5,7 @@ import 'package:movie2/AssetsIcon.dart';
 import 'package:movie2/SearchPage.dart';
 import 'package:movie2/tools/CustomRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
-import'dart:html';
-import'dart:js' as js;
+
 import 'Global.dart';
 import 'data/SwiperData.dart';
 
@@ -22,7 +19,6 @@ class IndexPage extends StatefulWidget {
 class _IndexPage extends State<IndexPage>{
   final TextEditingController _textEditingController = TextEditingController();
   List<SwiperData> _swipers = [];
-  String _text = '搜索您喜欢的内容';
 
   @override
   void initState() {
@@ -34,14 +30,6 @@ class _IndexPage extends State<IndexPage>{
     data.image = 'https://23porn.oss-cn-hangzhou.aliyuncs.com/d95661e1-b1d2-4363-b263-ef60b965612d.png';
     data.url = data.image;
     _swipers.add(data);
-    if(kIsWeb){
-      var uri = Uri.dataFromString(window.location.href);
-      var queryParameters = uri.queryParameters;
-      if(queryParameters != null){
-        if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
-        if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
-      }
-    }
     super.initState();
   }
   @override
@@ -83,7 +71,7 @@ class _IndexPage extends State<IndexPage>{
                       width: ((MediaQuery.of(context).size.width) / 1.5),
                       margin: const EdgeInsets.only(top: 10,bottom: 10),
                       alignment: Alignment.center,
-                      child: Text(_text,style: const TextStyle(fontSize: 13),),
+                      child: Text('搜索您喜欢的内容',style:  TextStyle(fontSize: 13,color: Colors.grey.withOpacity(0.6)),),
                     ),
                     onTap: (){
                       Navigator.push(context, FadeRoute(page: SearchPage()));
