@@ -13,7 +13,7 @@ class ListStyle {
       ..layout(maxWidth: maxWidth);
     return textPainter.size;
   }
-  static Widget buildHorizontalList(List<Word> words, {ClickCallbackIndex? callback}) {
+  static Widget buildHorizontalList(List<String> words, {ClickCallbackIndex? callback}) {
     List<Widget> widgets = [];
     for (int i = 0; i < words.length; i++) {
       widgets.add(
@@ -32,7 +32,7 @@ class ListStyle {
             margin:
             const EdgeInsets.only(top: 3, bottom: 3, left: 12, right: 12),
             child: Text(
-              words[i].text,
+              words[i],
               style:  TextStyle(
                 color: Colors.white.withOpacity(0.6),
                 fontSize: 13,
@@ -82,7 +82,7 @@ class ListStyle {
         list.add(
             InkWell(
               onTap: () {
-                callback!(i);
+                callback!(i*4);
               },
               child: buildPhalanxListItem(words[i*4], width / 4.5),
             ));
@@ -91,7 +91,7 @@ class ListStyle {
         list.add(
             InkWell(
               onTap: () {
-                callback!(i);
+                callback!(i*4+1);
               },
               child: buildPhalanxListItem(words[i*4+1], width / 4.5),
             ));
@@ -100,7 +100,7 @@ class ListStyle {
         list.add(
             InkWell(
               onTap: () {
-                callback!(i);
+                callback!(i*4+2);
               },
               child: buildPhalanxListItem(words[i*4+2], width / 4.5),
             ));
@@ -109,7 +109,7 @@ class ListStyle {
         list.add(
             InkWell(
               onTap: () {
-                callback!(i);
+                callback!(i*4+3);
               },
               child: buildPhalanxListItem(words[i*4+3], width / 4.5),
             ));

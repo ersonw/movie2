@@ -3,9 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:movie2/AssetsIcon.dart';
+import 'package:movie2/Global.dart';
 import 'package:movie2/data/Word.dart';
+import 'package:movie2/tools/CustomDialog.dart';
+import 'package:movie2/tools/Request.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'tools/RoundUnderlineTabIndicator.dart';
 import 'Style/ListStyle.dart';
 
 class SearchPage extends StatefulWidget {
@@ -19,10 +22,11 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   late  TabController _innerTabController;
+  bool alive = true;
   final _tabKey = const ValueKey('tab');
   int tabIndex = 0;
   List<Word> _words = [];
-  List<Word> _records = [];
+  List<String> _records = generalModel.words;
   List<Word> _hotMonth = [];
   List<Word> _hotYear = [];
 
@@ -68,9 +72,15 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
     word  = Word();
     word.text = '筧ジュン';
     _words.add(word);
-    _records = _words;
     _hotMonth = _words;
     _hotYear = _words;
+    generalModel.addListener(() {
+      if(alive){
+        setState(() {
+          _records = generalModel.words;
+        });
+      }
+    });
     int initialIndex = PageStorage.of(context)?.readState(context, identifier: _tabKey);
     _innerTabController = TabController(
         length: 2,
@@ -92,9 +102,10 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
       ),
     );
   }
-  _search(){
+   _search(){
     _focusNode.unfocus();
-    print(_textEditingController.text);
+    generalModel.updateWords(_textEditingController.text);
+    Request.test();
   }
   _buildList(){
     List<Widget> widgets = [];
@@ -177,7 +188,11 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                 child: Center(child: Image.asset(AssetsIcon.clearIcon),),
               ),
               onTap: (){
-                print('test');
+                CustomDialog.message('确定要清除所有搜索记录吗？', callback: (bool value){
+                  if(value){
+                    generalModel.clearWords();
+                  }
+                });
               },
             ),
           ],
@@ -185,7 +200,8 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
       );
       widgets.add(ListStyle.buildHorizontalList(_records, callback: (int index){
         if(index < _records.length){
-          _textEditingController.text = _records[index].text;
+          _textEditingController.text = _records[index];
+          _search();
         }
       }));
     }
@@ -223,6 +239,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
       // widgets.add(ListStyle.buildPhalanxList(_words, callback: (int index){
         if(index < _words.length){
           _textEditingController.text = _words[index].text;
+          _search();
         }
       }));
     }
@@ -238,6 +255,18 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                 children: [
                   TabBar(
                     controller: _innerTabController,
+                    labelStyle: const TextStyle(fontSize: 18),
+                    unselectedLabelStyle: const TextStyle(fontSize: 15),
+                    padding: const EdgeInsets.only(right: 0),
+                    indicatorPadding: const EdgeInsets.only(right: 0),
+                    labelColor: Colors.white,
+                    labelPadding: const EdgeInsets.only(left: 0, right: 0),
+                    unselectedLabelColor: Colors.white.withOpacity(0.6),
+                    indicator: const RoundUnderlineTabIndicator(
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.deepOrangeAccent,
+                        )),
                     tabs: [
                       Text('当月热搜榜'),
                       Text('年度热搜榜'),
@@ -357,7 +386,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
   }
   @override
   void dispose() {
-    // TODO: implement dispose
+    alive = false;
     _innerTabController.dispose();
     _textEditingController.dispose();
     super.dispose();

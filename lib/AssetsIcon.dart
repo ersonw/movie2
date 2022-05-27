@@ -23,6 +23,5 @@ class AssetsIcon {
   static const String refreshIcon = ('assets/icons/refreshIcon.png');
   static const String searchTag = ('assets/icons/searchTag.png');
   static const String VIPIcon = ('assets/icons/VIPIcon.png');
-
   static const String clearIcon = ('assets/icons/clearIcon.png');
 }

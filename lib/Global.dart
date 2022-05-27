@@ -7,7 +7,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:movie2/Model/ConfigModel.dart';
+import 'package:movie2/Model/GeneralModel.dart';
+import 'package:movie2/Model/UserModel.dart';
 import 'package:movie2/MyApp.dart';
+import 'package:movie2/tools/Request.dart';
 import 'package:openinstall_flutter_plugin/openinstall_flutter_plugin.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,39 +19,42 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
+import 'ProfileChangeNotifier.dart';
 import 'WebViewExample.dart';
 import 'data/Profile.dart';
 import 'dart:ui' as ui;
 import 'package:encrypt/encrypt.dart' as XYQ;
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
+final GeneralModel generalModel = GeneralModel();
+final ConfigModel configModel = ConfigModel();
+final UserModel userModel = UserModel();
 final OpeninstallFlutterPlugin _openinstallFlutterPlugin = OpeninstallFlutterPlugin();
 class Global {
   static bool get isRelease => const bool.fromEnvironment("dart.vm.product");
   static late PackageInfo packageInfo;
   static late SharedPreferences _prefs;
-  static Profile profile = Profile();
-  static String uid = '';
-  static bool initMain = false;
   static late BuildContext mainContext;
 
-  static String? codeInvite = '';
-  static String? channelCode = '';
+  static Profile profile = Profile();
+  static bool initMain = false;
   static const String mykey = 'e797e49a5f21d99840c3a07dee2c3c7c';
   static const String myiv = 'e797e49a5f21d99840c3a07dee2c3c7a';
+
+  static String? deviceId;
+  static String? codeInvite;
+  static String? channelCode;
+
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     _prefs = await SharedPreferences.getInstance();
     var _profile = _prefs.getString("profile");
+    // print(_profile);
     if (_profile != null) {
-      try {
-        profile = Profile.fromJson(jsonDecode(_profile));
-      } catch (e) {
-        print(e);
-      }
+      profile = Profile.fromJson(jsonDecode(_profile));
     }
     if(kIsWeb == false) {
-      uid = await getUUID();
+      deviceId = await getUUID();
       _openinstallFlutterPlugin.init(wakeupHandler);
       _openinstallFlutterPlugin.install(installHandler);
       packageInfo = await PackageInfo.fromPlatform();
@@ -61,6 +68,7 @@ class Global {
       //   if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
       // }
     }
+    Request.init();
     runApp(const MyApp());
   }
   static void openWebview(String data, {bool? inline}){
@@ -169,7 +177,10 @@ class Global {
     return uid;
   }
   static saveProfile() => _prefs.setString("profile", jsonEncode(profile.toJson()));
-
+  // static Future<void> saveProfile()async{
+  //   if(initMain == false) await init();
+  //   _prefs.setString("profile", profile.toString());
+  // }
   static String encryptCode(String text){
     final key = XYQ.Key.fromUtf8(mykey);
     final iv = XYQ.IV.fromUtf8(myiv);

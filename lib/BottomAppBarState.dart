@@ -9,25 +9,21 @@ import 'Global.dart';
 
 ///自定义不规则底部导航栏
 class BottomAppBarState extends StatefulWidget {
+  const BottomAppBarState({Key? key}) : super(key: key);
+
   @override
   _BottomAppBarState createState() => _BottomAppBarState();
 }
 
 class _BottomAppBarState extends State<BottomAppBarState> {
-  List<Widget> _eachView = [];
+  final List<Widget> _eachView = [];
   int _index = 0;
   // SystemMessage systemMessage = SystemMessage();
 
   @override
   void initState() {
     super.initState();
-    // if(messagesChangeNotifier.messages.systemMessage.isNotEmpty) systemMessage = messagesChangeNotifier.messages.systemMessage.last;
-    // _eachView.add(const IndexHomePage());
-    // _eachView.add(const WolfFriendPage());
-    // _eachView.add(const RecommendedPage());
-    // _eachView.add(const MyProfile());
-    // _eachView.add(const GamePage());
-    _eachView.add(IndexPage());
+    _eachView.add(const IndexPage());
     _eachView.add(Container());
     _eachView.add(Container());
     _eachView.add(Container());
@@ -79,9 +75,6 @@ class _BottomAppBarState extends State<BottomAppBarState> {
   @override
   Widget build(BuildContext context) {
     _init(context);
-    // print(Global.codeInvite);
-    // print(Global.channelCode);
-    // Global.showLockScreen();
     return Scaffold(
       body: _eachView[_index],
       // floatingActionButton: FloatingActionButton(
