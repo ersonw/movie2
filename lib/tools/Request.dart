@@ -8,21 +8,28 @@ import '../Global.dart';
 class Request {
   static late Dio _dio;
   static init() {
-    _dio = Dio(getOptions());
+    _dio = Dio(_getOptions());
     configModel.addListener(() {
-      _dio.options.baseUrl = configModel.config.mainDomain;
+      _dio.options.baseUrl = _getDomain();
     });
     userModel.addListener(() {
       _dio.options.headers['Token'] = userModel.hasToken() ? userModel.user.token : '';
     });
   }
-  static getOptions(){
+  static _getDomain(){
+    String domain = configModel.config.mainDomain;
+    if(!domain.startsWith("http")){
+      domain = 'http://$domain';
+    }
+    return domain;
+  }
+  static _getOptions(){
     /// 自定义Header
     Map<String, dynamic> httpHeaders = {
       'Token': userModel.hasToken() ? userModel.user.token : '',
     };
     return BaseOptions(
-      baseUrl: configModel.config.mainDomain,
+      baseUrl: _getDomain(),
       headers: httpHeaders,
       contentType: Headers.jsonContentType,
       responseType: ResponseType.json,
@@ -36,11 +43,11 @@ class Request {
     try{
       Response response = await _dio.get(path,queryParameters: params);
       if(response.statusCode == 200 && response.data != null){
-        Map<String, dynamic> data = jsonDecode(response.data);
+        Map<String, dynamic> data = response.data;
         if(data['code'] == 200){
           return data['data'];
         }else{
-          CustomDialog.message(data['message']);
+          if(data['message'] != null) CustomDialog.message(data['message']);
         }
       }
     } on DioError catch(e) {
@@ -64,7 +71,7 @@ class Request {
         if(data['code'] == 200){
           return data['data'];
         }else{
-          CustomDialog.message(data['message']);
+          if(data['message'] != null) CustomDialog.message(data['message']);
         }
       }
     } on DioError catch(e) {

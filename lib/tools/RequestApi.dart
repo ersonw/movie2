@@ -1,3 +1,3 @@
 class RequestApi {
-  static const test = '/test/{text}';
+  static const test = '/api/test/{text}';
 }

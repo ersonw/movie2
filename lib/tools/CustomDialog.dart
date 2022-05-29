@@ -12,8 +12,15 @@ class CustomDialog {
           return CupertinoAlertDialog(
             title: Text(title ?? "提示信息"),
             content: Text(text,textAlign: left ? TextAlign.left : TextAlign.center,),
-            actions: [
-              callback == null ? Container() : CupertinoDialogAction(
+            actions: callback == null ? [
+              CupertinoDialogAction(
+                  child: const Text("确定"),
+                  onPressed: () {
+                    Navigator.of(_context).pop();
+                    callback!(true);
+                  })
+            ] : [
+              CupertinoDialogAction(
                   child: const Text("取消"),
                   onPressed: () {
                     Navigator.of(_context).pop();
@@ -23,7 +30,7 @@ class CustomDialog {
                   child: const Text("确定"),
                   onPressed: () {
                     Navigator.of(_context).pop();
-                    callback!(true);
+                    callback(true);
                   }),
 
             ],
