@@ -11,6 +11,8 @@ import 'package:movie2/Model/ConfigModel.dart';
 import 'package:movie2/Model/GeneralModel.dart';
 import 'package:movie2/Model/UserModel.dart';
 import 'package:movie2/MyApp.dart';
+import 'package:movie2/Page/LoginPage.dart';
+import 'package:movie2/tools/CustomRoute.dart';
 import 'package:movie2/tools/Request.dart';
 import 'package:openinstall_flutter_plugin/openinstall_flutter_plugin.dart';
 import 'package:package_info/package_info.dart';
@@ -20,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 import 'ProfileChangeNotifier.dart';
+import 'SearchPage.dart';
 import 'WebViewExample.dart';
 import 'data/Profile.dart';
 import 'dart:ui' as ui;
@@ -42,6 +45,7 @@ class Global {
   static const String myiv = 'e797e49a5f21d99840c3a07dee2c3c7a';
 
   static String? deviceId;
+  static String? platform;
   static String? codeInvite;
   static String? channelCode;
 
@@ -53,12 +57,16 @@ class Global {
     if (_profile != null) {
       profile = Profile.fromJson(jsonDecode(_profile));
     }
+    Request.init();
     if(kIsWeb == false) {
       deviceId = await getUUID();
+      platform = Platform.operatingSystem;
+      // print(platform);
       _openinstallFlutterPlugin.init(wakeupHandler);
       _openinstallFlutterPlugin.install(installHandler);
       packageInfo = await PackageInfo.fromPlatform();
-      print(packageInfo.buildNumber);
+      // print(packageInfo.buildNumber);
+      Request.checkDeviceId();
     }else{
       // import'dart:html';
       // var uri = Uri.dataFromString(window.location.href);
@@ -68,8 +76,10 @@ class Global {
       //   if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
       // }
     }
-    Request.init();
     runApp(const MyApp());
+  }
+  static void loginPage(){
+    Navigator.push(mainContext, SlideRightRoute(page: const LoginPage()));
   }
   static void openWebview(String data, {bool? inline}){
     Navigator.push(

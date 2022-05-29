@@ -6,8 +6,8 @@ import 'package:movie2/SearchPage.dart';
 import 'package:movie2/tools/CustomRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'Global.dart';
-import 'data/SwiperData.dart';
+import '../Global.dart';
+import '../data/SwiperData.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);

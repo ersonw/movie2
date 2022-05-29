@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'AssetsIcon.dart';
-import 'IndexPage.dart';
+import 'Page/IndexPage.dart';
 
 import 'Global.dart';
 
@@ -172,9 +172,13 @@ class _BottomAppBarState extends State<BottomAppBarState> {
                   ),
                 ),
                 onTap: (){
-                  setState(() {
-                    _index = 4;
-                  });
+                  if(userModel.hasToken()){
+                    setState(() {
+                      _index = 4;
+                    });
+                  }else{
+                    Global.loginPage();
+                  }
                 }
             ),
           ],

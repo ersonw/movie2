@@ -233,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  lpinyin:
+    dependency: transitive
+    description:
+      name: lpinyin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   matcher:
     dependency: transitive
     description:
@@ -247,6 +254,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  ncindexlistview:
+    dependency: "direct main"
+    description:
+      path: ncindexlistview
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:
