@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie2/Page/RegisterPage.dart';
 import 'package:movie2/tools/CustomDialog.dart';
 import 'package:movie2/tools/CustomRoute.dart';
 import 'package:movie2/tools/Request.dart';
@@ -51,9 +52,14 @@ class _LoginPage extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(30),
-                    child: Center(child: Icon(Icons.clear),),
+                  InkWell(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(30),
+                      child: Center(child: Icon(Icons.clear),),
+                    ),
                   ),
                 ],
               ),
@@ -80,7 +86,7 @@ class _LoginPage extends State<LoginPage> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top:10,bottom: 20),
-                      child: const Text('登录', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                      child: const Text('登录账号', style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                     ),
                     Container(
                       height: 45,
@@ -176,7 +182,7 @@ class _LoginPage extends State<LoginPage> {
                                       BorderRadius.circular(30))),
                             ),
                             onPressed: () {
-                              // _register();
+                              _register();
                             },
                             child: const Text(
                               '注册',
@@ -216,11 +222,18 @@ class _LoginPage extends State<LoginPage> {
       ),
     );
   }
+  _register(){
+    Navigator.push(context, SlideRightRoute(page: const RegisterPage()));
+  }
   _login()async{
     if(usernameEditingController.text.isEmpty || passwordEditingController.text.isEmpty){
       CustomDialog.message('账号或密码不允许为空！');
     }else{
-      if(await Request.userLogin(usernameEditingController.text, passwordEditingController.text)){
+      String username = usernameEditingController.text;
+      if(_isNumber){
+        username = countryCode+usernameEditingController.text;
+      }
+      if(await Request.userLogin(username, passwordEditingController.text) == true){
         Navigator.pop(context);
       }
     }

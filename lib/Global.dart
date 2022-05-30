@@ -14,6 +14,7 @@ import 'package:movie2/MyApp.dart';
 import 'package:movie2/Page/LoginPage.dart';
 import 'package:movie2/tools/CustomRoute.dart';
 import 'package:movie2/tools/Request.dart';
+// import 'package:movie2/tools/WebJS.dart';
 import 'package:openinstall_flutter_plugin/openinstall_flutter_plugin.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,8 +22,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
-import 'ProfileChangeNotifier.dart';
-import 'SearchPage.dart';
 import 'WebViewExample.dart';
 import 'data/Profile.dart';
 import 'dart:ui' as ui;
@@ -30,7 +29,7 @@ import 'package:encrypt/encrypt.dart' as XYQ;
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
 
-import'dart:html' as html;
+
 final GeneralModel generalModel = GeneralModel();
 final ConfigModel configModel = ConfigModel();
 final UserModel userModel = UserModel();
@@ -68,20 +67,20 @@ class Global {
       _openinstallFlutterPlugin.install(installHandler);
       packageInfo = await PackageInfo.fromPlatform();
       // print(packageInfo.buildNumber);
-      Request.checkDeviceId();
-    }else{
-
-      var uri = Uri.dataFromString(html.window.location.href);
-      var queryParameters = uri.queryParameters;
-      if(queryParameters != null){
-        if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
-        if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
+      if(userModel.hasToken() == false){
+        Request.checkDeviceId();
       }
+    }else{
+      // var queryParameters = WebJs.getUri();
+      // if(queryParameters != null){
+      //   if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
+      //   if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
+      // }
     }
     runApp(const MyApp());
   }
-  static void loginPage(){
-    Navigator.push(mainContext, SlideRightRoute(page: const LoginPage()));
+  static Future<void> loginPage()async{
+    await Navigator.push(mainContext, SlideRightRoute(page: const LoginPage()));
   }
   static void openWebview(String data, {bool? inline}){
     Navigator.push(

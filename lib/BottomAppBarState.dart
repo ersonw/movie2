@@ -177,7 +177,13 @@ class _BottomAppBarState extends State<BottomAppBarState> {
                       _index = 4;
                     });
                   }else{
-                    Global.loginPage();
+                    Global.loginPage().then((v) {
+                      if(userModel.hasToken()){
+                        setState(() {
+                          _index = 4;
+                        });
+                      }
+                    });
                   }
                 }
             ),

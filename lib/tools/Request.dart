@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:movie2/tools/CustomDialog.dart';
 import 'package:movie2/tools/RequestApi.dart';
 import '../Global.dart';
+import 'Loading.dart';
 class Request {
   static late Dio _dio;
   static init() {
@@ -40,6 +41,7 @@ class Request {
   }
 
   static Future<String?> _get(String path,Map<String, dynamic> params)async{
+    if(Global.initMain == true) Loading.show(Global.mainContext);
     try{
       Response response = await _dio.get(path,queryParameters: params, options: Options(
         headers: {
@@ -50,7 +52,9 @@ class Request {
         receiveDataWhenStatusError: false,
         receiveTimeout: 3000,
       ));
+      if(Global.initMain == true) Loading.dismiss(Global.mainContext);
       if(response.statusCode == 200 && response.data != null){
+        // print(response.data);
         Map<String, dynamic> data = response.data;
         if(data['code'] == 200){
           return data['data'];
@@ -71,6 +75,7 @@ class Request {
     }
   }
   static Future<String?> _post(String path,Map<String, dynamic> data)async{
+    if(Global.initMain == true) Loading.show(Global.mainContext);
     try{
       Response response = await _dio.post(path,data: data, options: Options(
         headers: {
@@ -81,12 +86,13 @@ class Request {
         receiveDataWhenStatusError: false,
         receiveTimeout: 3000,
       ));
+      if(Global.initMain == true) Loading.dismiss(Global.mainContext);
       if(response.statusCode == 200 && response.data != null){
         Map<String, dynamic> data = response.data;
+        if(data['message'] != null) CustomDialog.message(data['message']);
         if(data['code'] == 200){
+
           return data['data'];
-        }else{
-          if(data['message'] != null) CustomDialog.message(data['message']);
         }
       }
     } on DioError catch(e) {
@@ -105,7 +111,10 @@ class Request {
   static Future<void> checkDeviceId()async{
     String? result = await _get(RequestApi.checkDeviceId.replaceAll('{deviceId}', Global.deviceId!),{});
     if(result!=null){
-      print(result);
+      Map<String, dynamic> map = jsonDecode(result);
+      if(map['token'] != null) {
+        userModel.setToken(map['token']);
+      }
     }
   }
   static Future<bool> userLogin(String username, String password)async{
@@ -115,30 +124,39 @@ class Request {
       "deviceId": deviceId,
       "platform": platform,
       "username": username,
-      "password": password
+      "password": Global.generateMd5(password),
     };
     String? result = await _post(RequestApi.userLogin, data);
     if(result!=null){
-      print(result);
+      Map<String, dynamic> map = jsonDecode(result);
+      if(map['token'] != null) {
+        userModel.setToken(map['token']);
+        return true;
+      }
     }
     return false;
   }
-  static Future<bool> userRegister(String username, String password,String codeId,String code)async{
-    String deviceId = Global.deviceId ?? 'unknown';
-    String platform = Global.platform ?? 'Html5';
+  static Future<String?> userRegisterSms(String phone)async{
+    String? result = await _get(RequestApi.userRegisterSms.replaceAll('{phone}', phone),{});
+    if(result!=null){
+      Map<String, dynamic> map = jsonDecode(result);
+      if(map['id'] != null) return map['id'];
+    }
+    return null;
+  }
+  static Future<bool> userRegister(String password,String codeId,String code)async{
+    // String deviceId = Global.deviceId ?? 'unknown';
+    // String platform = Global.platform ?? 'Html5';
     Map<String, dynamic> data = {
-      "deviceId": deviceId,
-      "platform": platform,
-      "username": username,
-      "password": password,
+      // "deviceId": deviceId,
+      // "platform": platform,
+      "password": Global.generateMd5(password),
       "codeId": codeId,
       "code": code
     };
-    String? result = await _post(RequestApi.userLogin, data);
-    if(result!=null){
-      print(result);
-    }
-    return false;
+    String? result = await _post(RequestApi.userRegister, data);
+    print(result != null);
+    return result != null;
   }
   static Future<void> test()async{
     String? result = await _get(RequestApi.test.replaceAll('{text}', 'replace'), {'token': 'token'});
