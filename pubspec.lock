@@ -257,9 +257,11 @@ packages:
   ncindexlistview:
     dependency: "direct main"
     description:
-      path: ncindexlistview
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: c56b3bc465297c236d8ab91169b9961ac2879bf3
+      url: "https://github.com/newcoremobile/ncindexlistview.git"
+    source: git
     version: "0.0.1"
   nested:
     dependency: transitive

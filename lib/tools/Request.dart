@@ -31,7 +31,7 @@ class Request {
     return BaseOptions(
       baseUrl: _getDomain(),
       headers: httpHeaders,
-      contentType: Headers.jsonContentType,
+      // contentType: Headers.jsonContentType,
       responseType: ResponseType.json,
       receiveDataWhenStatusError: false,
       connectTimeout: 30000,
@@ -74,7 +74,7 @@ class Request {
     try{
       Response response = await _dio.post(path,data: data, options: Options(
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           'Token': userModel.hasToken() ? userModel.user.token : '',
         },
         responseType: ResponseType.json,

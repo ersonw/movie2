@@ -58,8 +58,10 @@ dependencies:
     path: ./verification_code_custom-0.0.3
   oss_dart:
     path: ./oss_dart
+#  ncindexlistview:
+#    path: ./ncindexlistview
   ncindexlistview:
-    path: ./ncindexlistview
+    git: https://github.com/newcoremobile/ncindexlistview.git
 
 dev_dependencies:
   flutter_test:

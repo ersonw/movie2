@@ -29,6 +29,8 @@ import 'dart:ui' as ui;
 import 'package:encrypt/encrypt.dart' as XYQ;
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
+
+import'dart:html' as html;
 final GeneralModel generalModel = GeneralModel();
 final ConfigModel configModel = ConfigModel();
 final UserModel userModel = UserModel();
@@ -68,13 +70,13 @@ class Global {
       // print(packageInfo.buildNumber);
       Request.checkDeviceId();
     }else{
-      // import'dart:html';
-      // var uri = Uri.dataFromString(window.location.href);
-      // var queryParameters = uri.queryParameters;
-      // if(queryParameters != null){
-      //   if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
-      //   if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
-      // }
+
+      var uri = Uri.dataFromString(html.window.location.href);
+      var queryParameters = uri.queryParameters;
+      if(queryParameters != null){
+        if(queryParameters['code'] != null) Global.codeInvite = queryParameters['code'];
+        if(queryParameters['channel'] != null) Global.channelCode = queryParameters['channel'];
+      }
     }
     runApp(const MyApp());
   }
