@@ -1,4 +1,0 @@
-com/example/verification_code_custom/BuildConfig.java
- com.example.verification_code_custom.BuildConfig
-com/example/verification_code_custom/VerificationCodeCustomPlugin.java
- com.example.verification_code_custom.VerificationCodeCustomPlugin
