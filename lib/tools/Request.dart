@@ -110,6 +110,7 @@ class Request {
 
   static Future<void> checkDeviceId()async{
     String? result = await _get(RequestApi.checkDeviceId.replaceAll('{deviceId}', Global.deviceId!),{});
+    print(result);
     if(result!=null){
       Map<String, dynamic> map = jsonDecode(result);
       if(map['token'] != null) {
