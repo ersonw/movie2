@@ -1,0 +1,88 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.telebott.movie2"
+4    android:versionCode="1"
+5    android:versionName="1.0.1" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="31" />
+10    <!--
+11         Flutter needs it to communicate with the running application
+12         to allow setting breakpoints, to provide hot reload, etc.
+13    -->
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->C:\Users\Administrator\Desktop\movie2\android\app\src\debug\AndroidManifest.xml:6:5-66
+14-->C:\Users\Administrator\Desktop\movie2\android\app\src\debug\AndroidManifest.xml:6:22-64
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->[:openinstall_flutter_plugin] C:\Users\Administrator\Desktop\movie2\build\openinstall_flutter_plugin\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-79
+15-->[:openinstall_flutter_plugin] C:\Users\Administrator\Desktop\movie2\build\openinstall_flutter_plugin\intermediates\library_manifest\debug\AndroidManifest.xml:8:22-76
+16    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+16-->[com.android.installreferrer:installreferrer:2.2] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\9e6a9752b73de74352cbdcc152db2a40\jetified-installreferrer-2.2\AndroidManifest.xml:9:5-110
+16-->[com.android.installreferrer:installreferrer:2.2] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\9e6a9752b73de74352cbdcc152db2a40\jetified-installreferrer-2.2\AndroidManifest.xml:9:22-107
+17
+18    <application
+19        android:name="android.app.Application"
+20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+20-->[androidx.core:core:1.7.0] C:\Users\Administrator\.gradle\caches\transforms-2\files-2.1\e596bd84a87a4cbdcf9d545f7eacbd1e\core-1.7.0\AndroidManifest.xml:24:18-86
+21        android:debuggable="true"
+22        android:icon="@mipmap/ic_launcher"
+23        android:label="movie2" >
+24        <activity
+25            android:name="com.telebott.movie2.MainActivity"
+26            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+27            android:exported="true"
+28            android:hardwareAccelerated="true"
+29            android:launchMode="singleTop"
+30            android:theme="@style/LaunchTheme"
+31            android:windowSoftInputMode="adjustResize" >
+32
+33            <!--
+34                 Specifies an Android theme to apply to this Activity as soon as
+35                 the Android process has started. This theme is visible to the user
+36                 while the Flutter UI initializes. After that, this theme continues
+37                 to determine the Window background behind the Flutter UI.
+38            -->
+39            <meta-data
+40                android:name="io.flutter.embedding.android.NormalTheme"
+41                android:resource="@style/NormalTheme" />
+42            <meta-data
+43                android:name="com.invitation.APP_KEY"
+44                android:value="z1uhui99" />
+45
+46            <intent-filter>
+47                <action android:name="android.intent.action.VIEW" />
+48
+49                <category android:name="android.intent.category.DEFAULT" />
+50                <category android:name="android.intent.category.BROWSABLE" />
+51
+52                <data android:scheme="z1uhui99" />
+53            </intent-filter>
+54            <intent-filter>
+55                <action android:name="android.intent.action.MAIN" />
+56
+57                <category android:name="android.intent.category.LAUNCHER" />
+58            </intent-filter>
+59        </activity>
+60        <!--
+61             Don't delete the meta-data below.
+62             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+63        -->
+64        <meta-data
+65            android:name="flutterEmbedding"
+66            android:value="2" />
+67        <meta-data
+68            android:name="com.invitation.APP_KEY"
+69            android:value="z1uhui99" />
+70
+71        <activity
+71-->[:url_launcher_android] C:\Users\Administrator\Desktop\movie2\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
+72            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+72-->[:url_launcher_android] C:\Users\Administrator\Desktop\movie2\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
+73            android:exported="false"
+73-->[:url_launcher_android] C:\Users\Administrator\Desktop\movie2\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
+74            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+74-->[:url_launcher_android] C:\Users\Administrator\Desktop\movie2\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
+75    </application>
+76
+77</manifest>

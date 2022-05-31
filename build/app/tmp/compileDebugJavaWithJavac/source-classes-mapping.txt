@@ -1,0 +1,6 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/telebott/movie2/BuildConfig.java
+ com.telebott.movie2.BuildConfig
+com/telebott/movie2/MainActivity.java
+ com.telebott.movie2.MainActivity
