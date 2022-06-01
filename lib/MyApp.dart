@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie2/BottomAppBarState.dart';
-import 'package:movie2/SplashPage.dart';
+import 'package:movie2/Page/SplashPage.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

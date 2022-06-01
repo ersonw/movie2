@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:movie2/AssetsIcon.dart';
-import 'package:movie2/SearchPage.dart';
-import 'package:movie2/tools/CustomRoute.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../AssetsIcon.dart';
+import 'SearchPage.dart';
+import '../tools/CustomRoute.dart';
+
 
 import '../Global.dart';
 import '../data/SwiperData.dart';
