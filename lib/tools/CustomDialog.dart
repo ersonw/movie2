@@ -17,7 +17,6 @@ class CustomDialog {
                   child:  Text(sure),
                   onPressed: () {
                     Navigator.of(_context).pop();
-                    callback!(true);
                   })
             ] : [
               CupertinoDialogAction(

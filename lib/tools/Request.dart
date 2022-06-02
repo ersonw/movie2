@@ -52,26 +52,27 @@ class Request {
         receiveDataWhenStatusError: false,
         receiveTimeout: 3000,
       ));
-      // if(Global.initMain == true) Loading.dismiss(Global.mainContext);
+      Loading.dismiss();
       if(response.statusCode == 200 && response.data != null){
         // print(response.data);
         Map<String, dynamic> data = response.data;
-        if(data['code'] == 200){
+        if(data['message'] != null) CustomDialog.message(data['message']);
+        if(data['code'] == 200 && data['data'] != null){
           return data['data'];
-        }else{
-          if(data['message'] != null) CustomDialog.message(data['message']);
         }
       }
     } on DioError catch(e) {
-      if(e.response == null) {
-        CustomDialog.message(e.message);
-      } else if(e.response.statusCode == 105){
-        CustomDialog.message('未登录');
-      }else if(e.response.statusCode == 106){
-        CustomDialog.message('登录已失效');
-      }else{
-        CustomDialog.message(e.response.statusMessage);
-      }
+      Loading.dismiss();
+      print(e.message);
+      // if(e.response == null) {
+      //   CustomDialog.message(e.message);
+      // } else if(e.response.statusCode == 105){
+      //   CustomDialog.message('未登录');
+      // }else if(e.response.statusCode == 106){
+      //   CustomDialog.message('登录已失效');
+      // }else{
+      //   CustomDialog.message(e.response.statusMessage);
+      // }
     }
   }
   static Future<String?> _post(String path,Map<String, dynamic> data)async{
@@ -86,16 +87,16 @@ class Request {
         receiveDataWhenStatusError: false,
         receiveTimeout: 3000,
       ));
-      // if(Global.initMain == true) Loading.dismiss(Global.mainContext);
+      Loading.dismiss();
       if(response.statusCode == 200 && response.data != null){
         Map<String, dynamic> data = response.data;
         if(data['message'] != null) CustomDialog.message(data['message']);
-        if(data['code'] == 200){
-
+        if(data['code'] == 200 && data['data'] != null){
           return data['data'];
         }
       }
     } on DioError catch(e) {
+      Loading.dismiss();
       if(e.response == null) {
         CustomDialog.message(e.message);
       } else if(e.response.statusCode == 105){
@@ -128,7 +129,6 @@ class Request {
       "password": Global.generateMd5(password),
     };
     String? result = await _post(RequestApi.userLogin, data);
-    Loading.dismiss();
     if(result!=null){
       Map<String, dynamic> map = jsonDecode(result);
       if(map['token'] != null) {
@@ -141,7 +141,7 @@ class Request {
   static Future<String?> userRegisterSms(String phone)async{
     Loading.show();
     String? result = await _get(RequestApi.userRegisterSms.replaceAll('{phone}', phone),{});
-    Loading.dismiss();
+
     if(result!=null){
       Map<String, dynamic> map = jsonDecode(result);
       if(map['id'] != null) return map['id'];
@@ -160,7 +160,7 @@ class Request {
       "code": code
     };
     String? result = await _post(RequestApi.userRegister, data);
-    Loading.dismiss();
+
     return result != null;
   }
   static Future<void> test()async{
@@ -172,26 +172,37 @@ class Request {
   static Future<Map<String, dynamic>> searchLabelAnytime({bool showLoading=false})async{
     if(showLoading) Loading.show();
     String? result = await _get(RequestApi.searchLabelAnytime, {});
-    Loading.dismiss();
-    return jsonDecode(result!);
+
+    if(result != null){
+      return jsonDecode(result);
+    }
+    return Map<String, dynamic>();
   }
   static Future<Map<String, dynamic>> searchLabelHot()async{
     // Loading.show(Global.mainContext);
     String? result = await _get(RequestApi.searchLabelHot, {});
     // Loading.dismiss(Global.mainContext);
-    return jsonDecode(result!);
+    if(result != null){
+      return jsonDecode(result);
+    }
+    return Map<String, dynamic>();
   }
   static Future<Map<String, dynamic>> searchMovie(String text)async{
     Loading.show();
     String? result = await _get(RequestApi.searchMovie.replaceAll('{text}', text), {});
-    Loading.dismiss();
-    return jsonDecode(result!);
+    if(result != null){
+      return jsonDecode(result);
+    }
+    return Map<String, dynamic>();
   }
   static Future<Map<String, dynamic>> searchResult(String id, {int page=1, bool showLoading=false})async{
     if(showLoading) Loading.show();
     String? result = await _get(RequestApi.searchResult.replaceAll('{page}', '$page').replaceAll('{id}', id), {});
-    Loading.dismiss();
-    return jsonDecode(result!);
+
+    if(result != null){
+      return jsonDecode(result);
+    }
+    return Map<String, dynamic>();
   }
   static Future<void> searchMovieCancel(String id)async{
    await _get(RequestApi.searchMovieCancel.replaceAll('{id}', id), {});

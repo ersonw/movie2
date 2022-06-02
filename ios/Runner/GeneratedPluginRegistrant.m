@@ -6,6 +6,18 @@
 
 #import "GeneratedPluginRegistrant.h"
 
+#if __has_include(<auto_orientation/AutoOrientationPlugin.h>)
+#import <auto_orientation/AutoOrientationPlugin.h>
+#else
+@import auto_orientation;
+#endif
+
+#if __has_include(<brightness_volume/BrightnessVolumePlugin.h>)
+#import <brightness_volume/BrightnessVolumePlugin.h>
+#else
+@import brightness_volume;
+#endif
+
 #if __has_include(<device_info/FLTDeviceInfoPlugin.h>)
 #import <device_info/FLTDeviceInfoPlugin.h>
 #else
@@ -87,6 +99,8 @@
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
+  [AutoOrientationPlugin registerWithRegistrar:[registry registrarForPlugin:@"AutoOrientationPlugin"]];
+  [BrightnessVolumePlugin registerWithRegistrar:[registry registrarForPlugin:@"BrightnessVolumePlugin"]];
   [FLTDeviceInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
   [ImageGallerySaverPlugin registerWithRegistrar:[registry registrarForPlugin:@"ImageGallerySaverPlugin"]];

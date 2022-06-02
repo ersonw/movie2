@@ -16,6 +16,16 @@ public final class GeneratedPluginRegistrant {
   private static final String TAG = "GeneratedPluginRegistrant";
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
     try {
+      flutterEngine.getPlugins().add(new de.bytepark.autoorientation.AutoOrientationPlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin auto_orientation, de.bytepark.autoorientation.AutoOrientationPlugin", e);
+    }
+    try {
+      flutterEngine.getPlugins().add(new com.example.brightness_volume.BrightnessVolumePlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin brightness_volume, com.example.brightness_volume.BrightnessVolumePlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.deviceinfo.DeviceInfoPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin device_info, io.flutter.plugins.deviceinfo.DeviceInfoPlugin", e);

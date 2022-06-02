@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  auto_orientation:
+    dependency: "direct main"
+    description:
+      name: auto_orientation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -29,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  brightness_volume:
+    dependency: "direct main"
+    description:
+      name: brightness_volume
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   characters:
     dependency: transitive
     description:

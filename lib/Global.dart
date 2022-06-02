@@ -12,6 +12,7 @@ import 'package:movie2/Model/GeneralModel.dart';
 import 'package:movie2/Model/UserModel.dart';
 import 'package:movie2/MyApp.dart';
 import 'package:movie2/Page/LoginPage.dart';
+import 'package:movie2/Page/PlayerPage.dart';
 import 'package:movie2/tools/CustomRoute.dart';
 import 'package:movie2/tools/Request.dart';
 // import 'package:movie2/tools/WebJS.dart';
@@ -81,6 +82,9 @@ class Global {
   }
   static Future<void> loginPage()async{
     await Navigator.push(mainContext, SlideRightRoute(page: const LoginPage()));
+  }
+  static Future<void> playerPage(int id)async{
+    await Navigator.push(mainContext, SlideRightRoute(page: PlayerPage(id)));
   }
   static void openWebview(String data, {bool? inline}){
     Navigator.push(

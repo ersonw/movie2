@@ -2,7 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7303eeaf-fcf6-46a5-96f5-387f9ea7e1a3" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/icons/zanIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Module/GeneralRefresh.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Module/GeneralVideoList.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Page/PlayerPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/AssetsIcon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/AssetsIcon.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Global.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Global.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Page/SearchResultPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Page/SearchResultPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/Config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/Config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/data/Video.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/Video.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tools/CustomDialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/CustomDialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tools/CustomRoute.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/CustomRoute.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tools/Request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/Request.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/movie2.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,13 +70,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "settings.editor.selected.configurable": "flutter.settings"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/icons" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="项目" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
   <component name="Push.Settings">
     <force-push-targets>
       <force-push-target remote-path="origin" branch="main" />
@@ -55,6 +89,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/icons" />
       <recent name="C:\Users\Administrator\Desktop\movie2\android" />
       <recent name="C:\Users\Administrator\Desktop\movie2\assets\images" />
     </key>
@@ -91,6 +126,8 @@
       <workItem from="1653992219845" duration="4396000" />
       <workItem from="1654022843743" duration="833000" />
       <workItem from="1654025180255" duration="562000" />
+      <workItem from="1654186448063" duration="1737000" />
+      <workItem from="1654188197600" duration="12187000" />
     </task>
     <servers />
   </component>
@@ -115,6 +152,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/ncindexlistview" />
+    </ignored-roots>
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">

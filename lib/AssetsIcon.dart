@@ -24,4 +24,5 @@ class AssetsIcon {
   static const String searchTag = ('assets/icons/searchTag.png');
   static const String VIPIcon = ('assets/icons/VIPIcon.png');
   static const String clearIcon = ('assets/icons/clearIcon.png');
+  static const String zanIcon = ('assets/icons/zanIcon.png');
 }

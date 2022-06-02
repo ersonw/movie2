@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:movie2/Module/GeneralRefresh.dart';
+import 'package:movie2/Module/GeneralVideoList.dart';
 import 'package:movie2/data/Video.dart';
 import 'package:movie2/tools/CustomRoute.dart';
 import 'package:movie2/tools/Request.dart';
 
 import '../AssetsIcon.dart';
+import '../Global.dart';
 
 class SearchResultPage extends StatefulWidget {
   String id;
@@ -15,7 +19,8 @@ class SearchResultPage extends StatefulWidget {
   _SearchResultPage createState() => _SearchResultPage();
 }
 class _SearchResultPage extends State<SearchResultPage>{
-  late Timer _timer;
+  final ScrollController _controller = ScrollController();
+  bool refresh = true;
   int page = 1;
   String text = "";
   int total = 1;
@@ -23,17 +28,26 @@ class _SearchResultPage extends State<SearchResultPage>{
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      _timer.cancel();
-      getResult();
+    _controller.addListener(() {
+      if (_controller.position.pixels ==
+          _controller.position.maxScrollExtent) {
+        setState(() {
+          page++;
+        });
+        getResult();
+      }
     });
+    getResult();
   }
-  getResult({bool showLoading = true})async{
+  getResult()async{
     if (page > total) {
+      page--;
       return;
     }
-    Map<String, dynamic> result = await Request.searchResult(widget.id,page: page, showLoading: showLoading);
-    // print(result);
+    Map<String, dynamic> result = await Request.searchResult(widget.id,page: page);
+    setState(() {
+      refresh = false;
+    });
     if(result != null){
       if (result['total'] != null) total = result['total'];
       if (result['text'] != null) text = result['text'];
@@ -53,64 +67,79 @@ class _SearchResultPage extends State<SearchResultPage>{
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff181921),
-      body: ListView(
-        children: _buildList(),
+    return GeneralRefresh(
+      controller: _controller,
+      onRefresh: (){
+        setState(() {
+          refresh = true;
+        });
+        page = 1;
+        total = 1;
+        getResult();
+      },
+      body: buildList(),
+      refresh: refresh,
+      header: SizedBox(
+        // color: Colors.red,
+        // height: 45,
+        width: ((MediaQuery.of(context).size.width) / 1),
+        child: Container(
+          margin: const EdgeInsets.only(top: 15),
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: Colors.white10,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+          ),
+          child: Row(
+              children: [
+                const Padding(padding: EdgeInsets.only(left: 20,)),
+                Center(child: Image.asset(AssetsIcon.searchTag,height: 15,),),
+                InkWell(
+                  child: Container(
+                    width: ((MediaQuery.of(context).size.width) / 1.2),
+                    margin: const EdgeInsets.only(top: 10,bottom: 10),
+                    alignment: Alignment.center,
+                    child: Text(text,style:  TextStyle(fontSize: 13,color: Colors.grey.withOpacity(0.6)),),
+                  ),
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                ),
+              ]
+          ),
+        ),
+      ),
+      footer: Container(
+        margin: const EdgeInsets.only(top:30,bottom: 30),
+        child: Center(child: total > page ? _getLoading() : (Text(_list.isEmpty ? '找不到搜索结果' : '没有更多了')),),
       ),
     );
   }
-  _buildList(){
-    List<Widget> widgets = [];
-    widgets.add(SizedBox(
-      // color: Colors.red,
-      // height: 45,
-      width: ((MediaQuery.of(context).size.width) / 1),
-      child: Container(
-        margin: const EdgeInsets.only(top: 15),
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          color: Colors.white10,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-        ),
-        child: Row(
-            children: [
-              const Padding(padding: EdgeInsets.only(left: 20,)),
-              Center(child: Image.asset(AssetsIcon.searchTag,height: 15,),),
-              InkWell(
-                child: Container(
-                  width: ((MediaQuery.of(context).size.width) / 1.1),
-                  margin: const EdgeInsets.only(top: 10,bottom: 10),
-                  alignment: Alignment.center,
-                  child: Text(text,style:  TextStyle(fontSize: 13,color: Colors.grey.withOpacity(0.6)),),
-                ),
-                onTap: (){
-                  Navigator.pop(context);
-                },
-              ),
-            ]
+  _getLoading(){
+    return Container(
+      color: Colors.transparent,
+      child: Center(
+        child: Container(
+          width: 60,
+          height: 60,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SpinKitFadingCircle(
+                color: Colors.white,
+                size: 46.0,
+              )
+            ],
+          ),
         ),
       ),
-    ));
-    // widgets.add(buildList());
-    return widgets;
+    );
   }
   buildList(){
     List<Widget> widgets = [];
     for (int i = 0; i < _list.length; i++) {
-      widgets.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(_list[i].picThumb)),
-              ),
-            ),
-          ],
-        )
-      );
+      widgets.add(GeneralVideoList(video: _list[i]));
     }
     return Column(children: widgets,);
   }

@@ -9,26 +9,31 @@ class Video {
   int price = 0;
   int plays = 0;
   int likes = 0;
+  bool pay = false;
 
   Video();
 
   Video.fromJson(Map<String, dynamic> json)
       : id = json["id"],
         title = json["title"],
-        vodContent = json["content"],
-        picThumb = json["pic_thumb"],
+        vodContent = json["vodContent"],
+        picThumb = json["picThumb"],
+        vodDuration = json["vodDuration"],
         price = json["price"],
         plays = json["plays"],
-        likes = json["likes"];
+        likes = json["likes"],
+        pay = json["pay"];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
         'vodContent': vodContent,
         'picThumb': picThumb,
+        'vodDuration': vodDuration,
         'price': price,
         'plays': plays,
         'likes': likes,
+        'pay': pay,
       };
 
   @override
