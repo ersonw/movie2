@@ -63,7 +63,7 @@ class ListStyle {
         margin:
         const EdgeInsets.only(top: 3, bottom: 3, left: 12, right: 12),
         child: Text(
-          word.text,
+          word.words,
           style:  TextStyle(
             color: Colors.white.withOpacity(0.6),
             fontSize: 13,

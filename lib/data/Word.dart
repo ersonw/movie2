@@ -3,13 +3,13 @@ import 'dart:convert';
 class Word {
   Word();
   int id = 0;
-  String text = '';
+  String words = '';
   Word.fromJson(Map<String, dynamic> json):
       id = json['id'],
-  text = json['text'];
+        words = json['words'];
   Map<String, dynamic> toJson() => {
     'id': id,
-    'text': text,
+    'words': words,
   };
   @override
   String toString() {

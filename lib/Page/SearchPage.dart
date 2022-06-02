@@ -27,55 +27,16 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
   bool alive = true;
   final _tabKey = const ValueKey('tab');
   int tabIndex = 0;
-  List<Word> _words = [];
+
   List<String> _records = generalModel.words;
+  List<Word> _words = [];
   List<Word> _hotMonth = [];
   List<Word> _hotYear = [];
 
   @override
   void initState() {
-    Word word  = Word();
-    word.text = '七沢みあ';
-    _words.add(word);
-    word  = Word();
-    word.text = 'めぐり（藤浦めぐ）';
-    _words.add(word);
-    word  = Word();
-    word.text = '夏目彩春';
-    _words.add(word);
-    word  = Word();
-    word.text = '橋本れいか';
-    _words.add(word);
-    word  = Word();
-    word.text = '筧ジュン';
-    word  = Word();
-    word.text = 'めぐり（藤浦めぐ）';
-    _words.add(word);
-    word  = Word();
-    word.text = '夏目彩春';
-    _words.add(word);
-    word  = Word();
-    word.text = '橋本れいか';
-    _words.add(word);
-    word  = Word();
-    word.text = '筧ジュン';
-    word  = Word();
-    word.text = 'めぐり（藤浦めぐ）';
-    _words.add(word);
-    word  = Word();
-    word.text = '夏目彩春';
-    _words.add(word);
-    word  = Word();
-    word.text = '橋本れいか';
-    _words.add(word);
-    word  = Word();
-    word.text = '筧ジュン';
-    _words.add(word);
-    word  = Word();
-    word.text = '筧ジュン';
-    _words.add(word);
-    _hotMonth = _words;
-    _hotYear = _words;
+    init();
+    change(showLoading: false);
     generalModel.addListener(() {
       if(alive){
         setState(() {
@@ -90,6 +51,33 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
         initialIndex: initialIndex != null ? initialIndex : tabIndex);
     _innerTabController.addListener(handleTabChange);
     super.initState();
+  }
+  init()async{
+    // change();
+    Map<String, dynamic> map = await Request.searchLabelHot();
+    // print(map);
+    if(map != null && map['month'] != null){
+      setState(() {
+        _hotMonth = (map['month'] as List).map((e) =>Word.fromJson(e)).toList();
+        // _hotMonth = _hotMonth.reversed.toList();
+      });
+    }
+    if(map != null && map['year'] != null) {
+      setState(() {
+        _hotYear = (map['year'] as List).map((e) =>Word.fromJson(e)).toList();
+        // _hotYear = _hotYear.reversed.toList();
+      });
+    }
+  }
+  change({bool showLoading=true})async{
+    Map<String, dynamic> map = await Request.searchLabelAnytime(showLoading: showLoading);
+    // print(map);
+    if(map != null && map['list'] != null) {
+      setState(() {
+        _words = (map['list'] as List).map((e) => Word.fromJson(e)).toList();
+        // _words = _words.reversed.toList();
+      });
+    }
   }
   void handleTabChange() {
     tabIndex = _innerTabController.index;
@@ -234,7 +222,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                   ),
               ),
               onTap: (){
-                print('test');
+                change();
               },
             ),
           ],
@@ -243,7 +231,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
       widgets.add(ListStyle.buildPhalanxList(_words, MediaQuery.of(context).size.width, callback: (int index){
       // widgets.add(ListStyle.buildPhalanxList(_words, callback: (int index){
         if(index < _words.length){
-          _textEditingController.text = _words[index].text;
+          _textEditingController.text = _words[index].words;
           _search();
         }
       }));
@@ -301,7 +289,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
         widgets.add(
           InkWell(
             onTap: (){
-              _textEditingController.text = list[i].text;
+              _textEditingController.text = list[i].words;
               _search();
             },
             child: Container(
@@ -311,7 +299,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                   children: [
                     Text('1',style: TextStyle(color: Colors.deepOrange,fontSize: 18,fontWeight: FontWeight.bold),),
                     const Padding(padding: EdgeInsets.only(left: 20)),
-                    Text(list[i].text,style: TextStyle(fontSize: 15),),
+                    Text(list[i].words,style: TextStyle(fontSize: 15),),
                   ]
               ),
             ),
@@ -322,7 +310,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
         widgets.add(
             InkWell(
               onTap: (){
-                _textEditingController.text = list[i].text;
+                _textEditingController.text = list[i].words;
                 _search();
               },
               child: Container(
@@ -332,7 +320,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                     children: [
                       Text('2',style: TextStyle(color: Colors.orangeAccent,fontSize: 18,fontWeight: FontWeight.bold),),
                       const Padding(padding: EdgeInsets.only(left: 20)),
-                      Text(list[i].text,style: TextStyle(fontSize: 15),),
+                      Text(list[i].words,style: TextStyle(fontSize: 15),),
                     ]
                 ),
               ),
@@ -344,7 +332,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
         widgets.add(
             InkWell(
               onTap: (){
-                _textEditingController.text = list[i].text;
+                _textEditingController.text = list[i].words;
                 _search();
               },
               child: Container(
@@ -354,7 +342,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                     children: [
                       Text('3',style: TextStyle(color: Colors.blue,fontSize: 18,fontWeight: FontWeight.bold),),
                       const Padding(padding: EdgeInsets.only(left: 20)),
-                      Text(list[i].text,style: TextStyle(fontSize: 15),),
+                      Text(list[i].words,style: TextStyle(fontSize: 15),),
                     ]
                 ),
               ),
@@ -366,7 +354,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
         widgets.add(
             InkWell(
               onTap: (){
-                _textEditingController.text = list[i].text;
+                _textEditingController.text = list[i].words;
                 _search();
               },
               child: Container(
@@ -374,9 +362,9 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('${i}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                      Text('${i+1}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                       const Padding(padding: EdgeInsets.only(left: 20)),
-                      Text(list[i].text,style: TextStyle(fontSize: 15),),
+                      Text(list[i].words,style: TextStyle(fontSize: 15),),
                     ]
                 ),
               ),

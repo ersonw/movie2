@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../Global.dart';
 class Loading extends StatelessWidget {
   static bool isLoading = false;
-  static void show(BuildContext context) {
+  static void show() {
+    if(isLoading) return;
     isLoading = true;
     showDialog(
       barrierDismissible: true,
-      context: context,
+      context: Global.mainContext,
       builder: (ctx) => Theme(
         data: Theme.of(ctx).copyWith(dialogBackgroundColor: Colors.transparent),
         child: Loading(),
       ),
     );
   }
-  static void dismiss(context) {
+  static void dismiss() {
     if(isLoading){
       isLoading = false;
-      Navigator.pop(context);
+      Navigator.pop(Global.mainContext);
     }
   }
   @override

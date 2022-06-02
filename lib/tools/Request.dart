@@ -118,7 +118,7 @@ class Request {
     }
   }
   static Future<bool> userLogin(String username, String password)async{
-    Loading.show(Global.mainContext);
+    Loading.show();
     String deviceId = Global.deviceId ?? 'unknown';
     String platform = Global.platform ?? 'Html5';
     Map<String, dynamic> data = {
@@ -128,7 +128,7 @@ class Request {
       "password": Global.generateMd5(password),
     };
     String? result = await _post(RequestApi.userLogin, data);
-    Loading.dismiss(Global.mainContext);
+    Loading.dismiss();
     if(result!=null){
       Map<String, dynamic> map = jsonDecode(result);
       if(map['token'] != null) {
@@ -139,9 +139,9 @@ class Request {
     return false;
   }
   static Future<String?> userRegisterSms(String phone)async{
-    Loading.show(Global.mainContext);
+    Loading.show();
     String? result = await _get(RequestApi.userRegisterSms.replaceAll('{phone}', phone),{});
-    Loading.dismiss(Global.mainContext);
+    Loading.dismiss();
     if(result!=null){
       Map<String, dynamic> map = jsonDecode(result);
       if(map['id'] != null) return map['id'];
@@ -151,7 +151,7 @@ class Request {
   static Future<bool> userRegister(String password,String codeId,String code)async{
     // String deviceId = Global.deviceId ?? 'unknown';
     // String platform = Global.platform ?? 'Html5';
-    Loading.show(Global.mainContext);
+    Loading.show();
     Map<String, dynamic> data = {
       // "deviceId": deviceId,
       // "platform": platform,
@@ -160,7 +160,7 @@ class Request {
       "code": code
     };
     String? result = await _post(RequestApi.userRegister, data);
-    Loading.dismiss(Global.mainContext);
+    Loading.dismiss();
     return result != null;
   }
   static Future<void> test()async{
@@ -169,16 +169,28 @@ class Request {
       print(result);
     }
   }
-  static Future<Map<String, dynamic>> searchMovie(String text)async{
-    Loading.show(Global.mainContext);
-    String? result = await _get(RequestApi.searchMovie.replaceAll('{text}', text), {});
-    Loading.dismiss(Global.mainContext);
+  static Future<Map<String, dynamic>> searchLabelAnytime({bool showLoading=false})async{
+    if(showLoading) Loading.show();
+    String? result = await _get(RequestApi.searchLabelAnytime, {});
+    Loading.dismiss();
     return jsonDecode(result!);
   }
-  static Future<Map<String, dynamic>> searchResult(String id, {int page=1})async{
-    Loading.show(Global.mainContext);
-    String? result = await _get(RequestApi.searchMovieResult.replaceAll('{page}', '$page').replaceAll('{id}', id), {});
-    Loading.dismiss(Global.mainContext);
+  static Future<Map<String, dynamic>> searchLabelHot()async{
+    // Loading.show(Global.mainContext);
+    String? result = await _get(RequestApi.searchLabelHot, {});
+    // Loading.dismiss(Global.mainContext);
+    return jsonDecode(result!);
+  }
+  static Future<Map<String, dynamic>> searchMovie(String text)async{
+    Loading.show();
+    String? result = await _get(RequestApi.searchMovie.replaceAll('{text}', text), {});
+    Loading.dismiss();
+    return jsonDecode(result!);
+  }
+  static Future<Map<String, dynamic>> searchResult(String id, {int page=1, bool showLoading=false})async{
+    if(showLoading) Loading.show();
+    String? result = await _get(RequestApi.searchResult.replaceAll('{page}', '$page').replaceAll('{id}', id), {});
+    Loading.dismiss();
     return jsonDecode(result!);
   }
   static Future<void> searchMovieCancel(String id)async{
