@@ -24,5 +24,11 @@ class AssetsIcon {
   static const String searchTag = ('assets/icons/searchTag.png');
   static const String VIPIcon = ('assets/icons/VIPIcon.png');
   static const String clearIcon = ('assets/icons/clearIcon.png');
+
+  static const String zanActiveIcon = ('assets/icons/zanActiveIcon.png');
   static const String zanIcon = ('assets/icons/zanIcon.png');
+  static const String downloadIcon = ('assets/icons/downloadIcon.png');
+  static const String shareIcon = ('assets/icons/shareIcon.png');
+  static const String starIcon = ('assets/icons/starIcon.png');
+
 }

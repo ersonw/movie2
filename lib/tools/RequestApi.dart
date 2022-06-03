@@ -12,4 +12,6 @@ class RequestApi {
   static const userLogin  = '/api/user/login';
   static const userRegister = '/api/user/register';
   static const userRegisterSms = '/api/user/register/sms/{phone}';
+
+  static const videoPlayer = '/api/video/player/{id}';
 }

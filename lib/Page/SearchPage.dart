@@ -35,6 +35,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
 
   @override
   void initState() {
+    // Request.test();
     init();
     change(showLoading: false);
     generalModel.addListener(() {

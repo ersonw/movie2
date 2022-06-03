@@ -58,7 +58,7 @@ class Request {
         Map<String, dynamic> data = response.data;
         if(data['message'] != null) CustomDialog.message(data['message']);
         if(data['code'] == 200 && data['data'] != null){
-          return data['data'];
+          return Global.decryptCode(data['data']);
         }
       }
     } on DioError catch(e) {
@@ -76,9 +76,12 @@ class Request {
     }
   }
   static Future<String?> _post(String path,Map<String, dynamic> data)async{
-    // if(Global.initMain == true) Loading.show(Global.mainContext);
+    // String s = Global.encryptCode(jsonEncode(data));
+    // print(s);
+    // print(Global.decryptCode(s));
     try{
-      Response response = await _dio.post(path,data: data, options: Options(
+      Response response = await _dio.post(path,data: Global.encryptCode(jsonEncode(data)), options: Options(
+      // Response response = await _dio.post(path,data: data, options: Options(
         headers: {
           // "Content-Type": "application/json",
           'Token': userModel.hasToken() ? userModel.user.token : '',
@@ -92,7 +95,7 @@ class Request {
         Map<String, dynamic> data = response.data;
         if(data['message'] != null) CustomDialog.message(data['message']);
         if(data['code'] == 200 && data['data'] != null){
-          return data['data'];
+          return Global.decryptCode(data['data']);
         }
       }
     } on DioError catch(e) {
@@ -164,7 +167,7 @@ class Request {
     return result != null;
   }
   static Future<void> test()async{
-    String? result = await _get(RequestApi.test.replaceAll('{text}', 'replace'), {'token': 'token'});
+    String? result = await _post(RequestApi.test.replaceAll('{text}', 'replace'), {'token': 'token'});
     if(result!=null){
       print(result);
     }
@@ -172,7 +175,7 @@ class Request {
   static Future<Map<String, dynamic>> searchLabelAnytime({bool showLoading=false})async{
     if(showLoading) Loading.show();
     String? result = await _get(RequestApi.searchLabelAnytime, {});
-
+    // print(result);
     if(result != null){
       return jsonDecode(result);
     }
@@ -204,7 +207,16 @@ class Request {
     }
     return Map<String, dynamic>();
   }
+
   static Future<void> searchMovieCancel(String id)async{
    await _get(RequestApi.searchMovieCancel.replaceAll('{id}', id), {});
+  }
+
+  static Future<Map<String, dynamic>> videoPlayer(int id)async{
+    String? result = await _get(RequestApi.videoPlayer.replaceAll('{id}', '$id'), {});
+    if(result != null){
+      return jsonDecode(result);
+    }
+    return Map<String, dynamic>();
   }
 }

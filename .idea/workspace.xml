@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7303eeaf-fcf6-46a5-96f5-387f9ea7e1a3" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/icons/zanIcon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Module/GeneralRefresh.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Module/GeneralVideoList.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Page/PlayerPage.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/downloadIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/shareIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/starIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/zanActiveIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/data/Player.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/TempValue.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/VideoPlayerUtils.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/widget/LockIcon.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/widget/VideoPlayerBottom.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/widget/VideoPlayerGestures.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/widget/VideoPlayerPage.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/widget/VideoPlayerSlider.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools/widget/VideoPlayerTop.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
@@ -18,19 +29,23 @@
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icons/zanIcon.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icons/zanIcon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/app/intermediates/project_dex_archive/debug/out/1f4672817c4870c30d6ee871e64c1baad3dd60ddd5305f94621172d28364b0a9_1.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/AssetsIcon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/AssetsIcon.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/Global.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Global.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Page/SearchResultPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Page/SearchResultPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/Config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/Config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/Video.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/Video.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tools/CustomDialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/CustomDialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tools/CustomRoute.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/CustomRoute.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Page/PlayerPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Page/PlayerPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Page/SearchPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Page/SearchPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/tools/Request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/Request.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tools/RequestApi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools/RequestApi.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/movie2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/movie2.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +89,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/icons" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/tools" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="项目" />
     <property name="project.structure.proportion" value="0.0" />
@@ -89,6 +104,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/tools" />
       <recent name="$PROJECT_DIR$/assets/icons" />
       <recent name="C:\Users\Administrator\Desktop\movie2\android" />
       <recent name="C:\Users\Administrator\Desktop\movie2\assets\images" />
@@ -127,7 +143,9 @@
       <workItem from="1654022843743" duration="833000" />
       <workItem from="1654025180255" duration="562000" />
       <workItem from="1654186448063" duration="1737000" />
-      <workItem from="1654188197600" duration="12187000" />
+      <workItem from="1654188197600" duration="13055000" />
+      <workItem from="1654273816433" duration="96000" />
+      <workItem from="1654273923850" duration="15170000" />
     </task>
     <servers />
   </component>

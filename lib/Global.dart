@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'dart:typed_data';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -44,7 +46,6 @@ class Global {
   static Profile profile = Profile();
   static bool initMain = false;
   static const String mykey = 'e797e49a5f21d99840c3a07dee2c3c7c';
-  static const String myiv = 'e797e49a5f21d99840c3a07dee2c3c7a';
 
   static String? deviceId;
   static String? platform;
@@ -198,15 +199,24 @@ class Global {
   // }
   static String encryptCode(String text){
     final key = XYQ.Key.fromUtf8(mykey);
-    final iv = XYQ.IV.fromUtf8(myiv);
+    // final iv = XYQ.IV.fromUtf8(myiv);
+    final iv = XYQ.IV.fromSecureRandom(128);
     final encrypter = XYQ.Encrypter(XYQ.AES(key, mode: XYQ.AESMode.ecb));
     final encrypted = encrypter.encrypt(text, iv: iv);
-    return encrypted.base64;
+    return '$mykey#${encrypted.base64}';
   }
   static String decryptCode(String text){
+    String? ikey;
+    if(text.contains('#')) {
+      ikey = text.substring(0, text.indexOf('#'));
+      // print(ikey);
+      text = text.substring(text.indexOf('#')+1);
+      // print(text);
+    }
     final encrypted = XYQ.Encrypted.fromBase64(text);
-    final key = XYQ.Key.fromUtf8(mykey);
-    final iv = XYQ.IV.fromUtf8(myiv);
+    final key = XYQ.Key.fromUtf8(ikey ?? mykey);
+    // final iv = XYQ.IV.fromUtf8(myiv);
+    final iv = XYQ.IV.fromSecureRandom(128);
     final encrypter = XYQ.Encrypter(XYQ.AES(key, mode: XYQ.AESMode.ecb));
     return encrypter.decrypt(encrypted, iv: iv);
   }
