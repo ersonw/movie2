@@ -1,13 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie2/AssetsIcon.dart';
+import 'package:movie2/AssetsImage.dart';
 import 'package:movie2/Module/GeneralRefresh.dart';
+import 'package:movie2/Module/LeftTabBarView.dart';
+import 'package:movie2/Module/cRichText.dart';
 import 'package:movie2/data/Player.dart';
+import 'package:movie2/data/Comment.dart';
 import 'package:movie2/tools/Request.dart';
 import 'package:movie2/tools/VideoPlayerUtils.dart';
 import 'package:movie2/tools/widget/LockIcon.dart';
 import 'package:movie2/tools/widget/VideoPlayerBottom.dart';
 import 'package:movie2/tools/widget/VideoPlayerGestures.dart';
 import 'package:movie2/tools/widget/VideoPlayerTop.dart';
+import 'package:wakelock/wakelock.dart';
 import '../tools/TempValue.dart';
 import 'dart:ui';
 import '../Global.dart';
@@ -21,7 +29,7 @@ class PlayerPage extends StatefulWidget {
   _PlayerPage createState() => _PlayerPage();
 }
 
-class _PlayerPage extends State<PlayerPage> {
+class _PlayerPage extends State<PlayerPage> with SingleTickerProviderStateMixin{
   // 是否全屏
   bool get _isFullScreen =>
       MediaQuery.of(context).orientation == Orientation.landscape;
@@ -37,33 +45,57 @@ class _PlayerPage extends State<PlayerPage> {
   LockIcon? _lockIcon; // 控制是否沉浸式的widget
 
   final ScrollController _controller = ScrollController();
+  Timer _timer = Timer(const Duration(seconds: 1), () => {});
+  late TabController _innerTabController;
   bool refresh = true;
+  bool showContent = false;
 
-  // Widget? _playerUI;
+  List<Comment> _comments = [];
+  int commentPage = 1;
+  int commentTotal = 1;
   Player player = Player();
 
   @override
   void initState() {
+    Wakelock.enable();
     getPlayer();
+    _innerTabController = TabController(length: 2, vsync: this, initialIndex: 0);
     super.initState();
   }
-
+  getComment()async{
+    if(commentPage > commentTotal){
+      commentPage--;
+      return;
+    }
+    Map<String, dynamic> map = await Request.videoComments(widget.id, page: commentPage);
+    if(map['list'] != null){
+      List<Comment> list = (map['list'] as List).map((e) => Comment.formJson(e)).toList();
+      setState(() {
+        if(commentPage > 1){
+          _comments.addAll(list);
+        }else{
+          _comments = list;
+        }
+      });
+    }
+  }
   getPlayer() async {
     Map<String, dynamic> map = await Request.videoPlayer(widget.id);
     setState(() {
       refresh = false;
     });
     if (map['error'] != null) {
-      if (map['error'] == 'login')
+      if (map['error'] == 'login') {
         Global.loginPage().then((value) => getPlayer());
+      }
       return;
     }
     if (map['player'] != null) {
       setState(() {
         player = Player.formJson(map['player']);
       });
-      // print(player.vodPlayUrl);
-      VideoPlayerUtils.playerHandle(player.vodPlayUrl!);
+      VideoPlayerUtils.playerHandle(player.vodPlayUrl!, newWork: true);
+      VideoPlayerUtils.unLock();
       // 播放新视频，初始化监听
       VideoPlayerUtils.initializedListener(
           key: this,
@@ -82,20 +114,40 @@ class _PlayerPage extends State<PlayerPage> {
               _bottom ??= VideoPlayerBottom();
               _playerUI = widget;
               if (!mounted) return;
+              if(player.seek > 0){
+                VideoPlayerUtils.seekTo(position: Duration(seconds: player.seek));
+              }
               setState(() {});
             }
           });
+      VideoPlayerUtils.statusListener(key: this, listener: (VideoPlayerState state){
+        if (state == VideoPlayerState.playing) {
+          _timer = Timer.periodic(const Duration(seconds: 10), (Timer timer) async {
+            if (state == VideoPlayerState.playing) {
+              _heartbeat();
+            }else{
+              _timer.cancel();
+            }
+          });
+        }else{
+          _timer.cancel();
+        }
+      });
       VideoPlayerUtils.positionListener(key: this, listener: (int second){
-        if(second > 30 && VideoPlayerUtils.state == VideoPlayerState.playing){
+        if(player.pay == false && second > player.trial && VideoPlayerUtils.state == VideoPlayerState.playing){
           VideoPlayerUtils.lock();
+          _showPay();
         }
       });
     }
   }
-
+  _heartbeat()async{
+    await Request.videoHeartbeat(widget.id, VideoPlayerUtils.position.inSeconds);
+  }
+  _showPay()async{}
   @override
   Widget build(BuildContext context) {
-    return GeneralRefresh(
+    return player.id == 0 ? GeneralRefresh.getLoading() : GeneralRefresh(
         controller: _controller,
         onRefresh: () {
           setState(() {
@@ -103,16 +155,22 @@ class _PlayerPage extends State<PlayerPage> {
           });
           getPlayer();
         },
-        header: Container(
+        header: _isFullScreen ? Container() : Container(
           margin: const EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               InkWell(
                 onTap: (){
-                  //
+                  Navigator.pop(context);
                 },
-                child: Icon(Icons.chevron_left_outlined),
+                child: const Icon(Icons.chevron_left_outlined,size: 36,),
+              ),
+              const Padding(padding: EdgeInsets.only(left: 10),),
+              Container(
+                width: (MediaQuery.of(context).size.width / 1.3),
+                alignment: Alignment.center,
+                child: Text(player.title!, softWrap: false, overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,),
               ),
             ],
           ),
@@ -122,23 +180,92 @@ class _PlayerPage extends State<PlayerPage> {
             : Column(
                 children: [
                   safeAreaPlayerUI(),
-                  // const SizedBox(height: 100,),
-                  // InkWell(
-                  //   // 切换视频
-                  //   onTap: () {},
-                  //   child: Container(
-                  //     alignment: Alignment.center,
-                  //     width: 120, height: 60,
-                  //     color: Colors.orangeAccent,
-                  //     child: const Text("切换视频",style: TextStyle(fontSize: 18),),
-                  //   ),
-                  // )
+                  const Padding(padding: EdgeInsets.only(top: 10,),),
+                  LeftTabBarView(
+                    controller: _innerTabController, 
+                    tabs: const [
+                      Text('详情'),
+                      Text('评论'),
+                    ],
+                    children: [
+                      Container(
+                        width: (MediaQuery.of(context).size.width),
+                        margin: const EdgeInsets.all(10),
+                        child: _buildDetails(),
+                      ),
+                      Container(
+                        width: (MediaQuery.of(context).size.width),
+                        margin: const EdgeInsets.all(10),
+                        child: _buildComment(),
+                      ),
+                    ],
+                  ),
                 ],
               ),
         refresh: refresh,
     );
   }
-
+  _buildComment(){
+  }
+  _buildDetails(){
+    List<Widget> widgets = [];
+    widgets.add(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            width: (MediaQuery.of(context).size.width / 1.4),
+            child: Text(player.title??'',style: TextStyle(fontWeight: FontWeight.bold),maxLines: 1,overflow: TextOverflow.ellipsis,),
+          ),
+          Container(
+            alignment: Alignment.topRight,
+            child: Text(Global.getDateToString(player.addTime),style: TextStyle(color: Colors.white.withOpacity(0.5)),)),
+        ],
+      )
+    );
+    widgets.add(
+      cRichText(
+        player.vodContent ?? '',
+        mIsExpansion: showContent,
+        callback: (bool value){
+          setState(() {
+            showContent = value;
+          });
+        },
+      )
+    );
+    widgets.add(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: (){
+              //
+            },
+            child: Row(
+              children: [
+                Image.asset(player.like ? AssetsIcon.zanActiveIcon : AssetsIcon.zanIcon),
+                Text('${Global.getNumbersToChinese(player.likes)}人点赞'),
+              ],
+            ),
+          ),
+          InkWell(
+            onTap: (){
+              //
+            },
+            child: Row(
+              children: [
+                Image.asset(AssetsIcon.shareIcon),
+              ],
+            ),
+          ),
+        ],
+      )
+    );
+    return Column(
+      children: widgets,
+    );
+  }
   Widget safeAreaPlayerUI() {
     return SafeArea(
       // 全屏的安全区域
@@ -183,11 +310,13 @@ class _PlayerPage extends State<PlayerPage> {
 
   @override
   void dispose() {
-    VideoPlayerUtils.playerHandle(player.vodPlayUrl!);
+    VideoPlayerUtils.lock();
     VideoPlayerUtils.removeInitializedListener(this);
     VideoPlayerUtils.removePositionListener(this);
     VideoPlayerUtils.removeStatusListener(this);
     // VideoPlayerUtils.dispose();
+    Wakelock.disable();
+    _timer.cancel();
     super.dispose();
   }
 }

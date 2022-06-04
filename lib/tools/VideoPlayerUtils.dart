@@ -24,8 +24,8 @@ class VideoPlayerUtils{
   static bool _stopLock = false;
 
   // 播放、暂停、切换视频等播放操作
-  static void playerHandle(String url,{bool autoPlay = true,bool looping = false}) async{
-    if(url == _instance._url){
+  static void playerHandle(String url,{bool autoPlay = true,bool looping = false, bool newWork = false}) async{
+    if(url == _instance._url && newWork == false){
       if(_instance._controller!.value.isPlaying){ // 播放中，点击暂停
         await _instance._controller!.pause();
         _instance._updatePlayerState(VideoPlayerState.paused);
@@ -106,11 +106,13 @@ class VideoPlayerUtils{
   //暂停并且锁住
   static Future<void> lock()async{
     await _instance._controller!.pause();
+    _instance._updatePlayerState(VideoPlayerState.paused);
     _stopLock = true;
   }
   //解锁并播放
   static Future<void> unLock()async{
     await _instance._controller!.play();
+    _instance._updatePlayerState(VideoPlayerState.playing);
     _stopLock = false;
   }
   // 获取音量
@@ -165,11 +167,14 @@ class VideoPlayerUtils{
 
   // 简单处理下时间格式化mm:ss （超过1小时可自行处理hh:mm:ss）
   static String formatDuration(int second){
-    int min = second ~/ 60;
-    int sec = second % 60;
-    String minString = min < 10 ? "0$min" : min.toString();
-    String secString = sec < 10 ? "0$sec" : sec.toString();
-    return minString+":"+secString;
+    // int min = second ~/ 60;
+    // int sec = second % 60;
+    // String minString = min < 10 ? "0$min" : min.toString();
+    // String secString = sec < 10 ? "0$sec" : sec.toString();
+    // return minString+":"+secString;
+    var d = Duration(seconds:second);
+    List<String> parts = d.toString().split('.');
+    return parts[0];
   }
 
   // 释放资源

@@ -30,7 +30,7 @@ class _RegisterPage extends State<RegisterPage> {
   String? codeText;
   String _codeHint = '发送验证码';
   int validTime = 120;
-  Timer _timer = Timer(const Duration(milliseconds: 10), () => {});
+  Timer _timer = Timer(const Duration(seconds: 1), () => {});
 
   @override
   void initState() {

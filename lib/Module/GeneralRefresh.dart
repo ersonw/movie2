@@ -24,7 +24,7 @@ class GeneralRefresh extends StatelessWidget {
     refresh = true;
     onRefresh();
   }
-  _getLoading(){
+  static getLoading(){
     return Container(
       color: Colors.transparent,
       child: Center(
@@ -61,9 +61,12 @@ class GeneralRefresh extends StatelessWidget {
   _buildList(BuildContext context){
     List<Widget> widgets = [];
     widgets.add(header ?? Container());
-    widgets.add(const Padding(padding: EdgeInsets.only(top: 15)));
-    widgets.add(refresh ? _getLoading() : Container());
-    widgets.add(const Padding(padding: EdgeInsets.only(top: 15)));
+    // widgets.add(const Padding(padding: EdgeInsets.only(top: 15)));
+    widgets.add(refresh ? Container(
+      margin: const EdgeInsets.only(top: 15,bottom: 15),
+      child: getLoading(),
+    ) : Container());
+    // widgets.add(const Padding(padding: EdgeInsets.only(top: 15)));
     widgets.add(body);
     widgets.add(footer ?? Container());
     return widgets;

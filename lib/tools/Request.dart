@@ -100,15 +100,16 @@ class Request {
       }
     } on DioError catch(e) {
       Loading.dismiss();
-      if(e.response == null) {
-        CustomDialog.message(e.message);
-      } else if(e.response.statusCode == 105){
-        CustomDialog.message('未登录');
-      }else if(e.response.statusCode == 106){
-        CustomDialog.message('登录已失效');
-      }else{
-        CustomDialog.message(e.response.statusMessage);
-      }
+      print(e.message);
+      // if(e.response == null) {
+      //   CustomDialog.message(e.message);
+      // } else if(e.response.statusCode == 105){
+      //   CustomDialog.message('未登录');
+      // }else if(e.response.statusCode == 106){
+      //   CustomDialog.message('登录已失效');
+      // }else{
+      //   CustomDialog.message(e.response.statusMessage);
+      // }
     }
   }
 
@@ -218,5 +219,15 @@ class Request {
       return jsonDecode(result);
     }
     return Map<String, dynamic>();
+  }
+  static Future<Map<String, dynamic>> videoComments(int id, {int page = 1})async{
+    String? result = await _get(RequestApi.videoComments.replaceAll('{page}', '$page').replaceAll('{id}', '$id'), {});
+    if(result != null){
+      return jsonDecode(result);
+    }
+    return Map<String, dynamic>();
+  }
+  static Future<void> videoHeartbeat(int id, int seek)async{
+    await _post(RequestApi.videoHeartbeat, {'id': id, 'seek': seek});
   }
 }

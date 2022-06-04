@@ -12,6 +12,8 @@ class Player {
   bool like = false;
   int likes = 0;
   int plays = 0;
+  int trial = 0;
+  int seek = 0;
   Player();
   Player.formJson(Map<String, dynamic> json):
       pay = json['pay'],
@@ -24,7 +26,9 @@ class Player {
     vodContent = json['vodContent'],
     like = json['like'],
     likes = json['likes'],
-    plays = json['plays'];
+    plays = json['plays'],
+        seek = json['seek'],
+        trial = json['trial'];
   Map<String, dynamic> toJson() => {
     'pay': pay,
     'price': price,
@@ -37,6 +41,8 @@ class Player {
     'like': like,
     'likes': likes,
     'plays': plays,
+    'seek': seek,
+    'trial': trial,
   };
   @override
   String toString() {

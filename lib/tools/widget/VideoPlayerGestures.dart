@@ -182,7 +182,9 @@ class _VideoPlayerGesturesState extends State<VideoPlayerGestures> {
     double valueHorizontal = double.parse((_movePan / _width).toStringAsFixed(2));
     // 当前进度条百分比
     double currentValue = _positionValue.inMilliseconds / VideoPlayerUtils.duration.inMilliseconds;
+    // print(currentValue);
     double value = double.parse((currentValue + valueHorizontal).toStringAsFixed(2));
+    // print(value);
     if (value >= 1.00) {
       value = 1.00;
     } else if (value <= 0.00) {

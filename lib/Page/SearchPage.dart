@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:movie2/AssetsIcon.dart';
 import 'package:movie2/Global.dart';
+import 'package:movie2/Module/GeneralRefresh.dart';
+import 'package:movie2/Module/InputSearch.dart';
+import 'package:movie2/Module/LeftTabBarView.dart';
+import 'package:movie2/Module/Top3List.dart';
 import 'package:movie2/Page/SearchResultPage.dart';
 import 'package:movie2/data/Word.dart';
 import 'package:movie2/tools/CustomDialog.dart';
@@ -21,8 +25,6 @@ class SearchPage extends StatefulWidget {
 
 }
 class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
-  final TextEditingController _textEditingController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
   late  TabController _innerTabController;
   bool alive = true;
   final _tabKey = const ValueKey('tab');
@@ -32,6 +34,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
   List<Word> _words = [];
   List<Word> _hotMonth = [];
   List<Word> _hotYear = [];
+  String text = '';
 
   @override
   void initState() {
@@ -86,84 +89,40 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff181921),
-      body: ListView(
-        children: _buildList(),
-      ),
-    );
+    return GeneralRefresh(controller: ScrollController(), onRefresh: (){},
+        header: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            InputSearch(
+              text: text,
+              callback: (String value){
+                _search(value);
+              },
+            ),
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(right: 10,),
+                child: Text('取消'),
+              ),
+            ),
+          ],
+        ),
+        body: _buildList(),
+        refresh: false);
   }
-   _search()async{
-    _focusNode.unfocus();
-    generalModel.updateWords(_textEditingController.text);
-    Map<String, dynamic> result = await Request.searchMovie(_textEditingController.text);
+   _search(String text)async{
+    this.text = text;
+    generalModel.updateWords(text);
+    Map<String, dynamic> result = await Request.searchMovie(text);
     if(result != null && result['id'] != null){
       Navigator.push(context, SlideRightRoute(page: SearchResultPage(result['id'])));
     }
   }
   _buildList(){
     List<Widget> widgets = [];
-    widgets.add(const Padding(padding: EdgeInsets.only(top: 10)));
-    widgets.add(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        SizedBox(
-          // color: Colors.red,
-          // height: 45,
-          width: ((MediaQuery.of(context).size.width) / 1.2),
-          child: Container(
-            margin: const EdgeInsets.only(left: 15),
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: Colors.white10,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-            ),
-            child: Row(
-                children: [
-                  const Padding(padding: EdgeInsets.only(left: 20,)),
-                  Center(child: Image.asset(AssetsIcon.searchTag,height: 15,),),
-                  Flexible(
-                    child: TextField(
-                      focusNode: _focusNode,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      controller: _textEditingController,
-                      autofocus: true,
-                      // style: TextStyle(color: Colors.white38),
-                      onEditingComplete: () {
-                        _search();
-                      },
-                      // onSubmitted: (String text) {
-                      //   _search();
-                      // },
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.search,
-                      decoration: const InputDecoration(
-                        hintText: '搜索您喜欢的内容',
-                        hintStyle: TextStyle(color: Colors.white30,fontSize: 13,fontWeight: FontWeight.bold),
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Colors.transparent,
-                        contentPadding: EdgeInsets.only(top: 10,bottom: 10),
-                        isDense: true,
-                      ),
-                    ),
-                  ),
-                ]
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Container(
-            margin: const EdgeInsets.only(right: 10,),
-            child: Text('取消'),
-          ),
-        ),
-      ],
-    ));
     if(_records.isNotEmpty) {
       widgets.add(
         Row(
@@ -194,8 +153,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
       );
       widgets.add(ListStyle.buildHorizontalList(_records, callback: (int index){
         if(index < _records.length){
-          _textEditingController.text = _records[index];
-          _search();
+          _search(_records[index]);
         }
       }));
     }
@@ -232,157 +190,44 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin{
       widgets.add(ListStyle.buildPhalanxList(_words, MediaQuery.of(context).size.width, callback: (int index){
       // widgets.add(ListStyle.buildPhalanxList(_words, callback: (int index){
         if(index < _words.length){
-          _textEditingController.text = _words[index].words;
-          _search();
+          _search(_words[index].words);
         }
       }));
     }
     widgets.add(const Padding(padding: EdgeInsets.only(top: 20)));
     widgets.add(
-      Container(
-        color: Colors.transparent,
-        height: MediaQuery.of(context).size.height / 2,
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: _innerTabController,
-                    labelStyle: const TextStyle(fontSize: 18),
-                    unselectedLabelStyle: const TextStyle(fontSize: 15),
-                    padding: const EdgeInsets.only(right: 0),
-                    indicatorPadding: const EdgeInsets.only(right: 0),
-                    labelColor: Colors.white,
-                    labelPadding: const EdgeInsets.only(left: 0, right: 0),
-                    unselectedLabelColor: Colors.white.withOpacity(0.6),
-                    indicator: const RoundUnderlineTabIndicator(
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.deepOrangeAccent,
-                        )),
-                    tabs: [
-                      Text('当月热搜榜'),
-                      Text('年度热搜榜'),
-                    ],
-                  ),
-                  Expanded(
-                      child: TabBarView(
-                        controller: _innerTabController,
-                        children: [
-                          _buildHotList(_hotMonth),
-                          _buildHotList(_hotYear),
-                        ],
-                      )),
-                ],
-              ),
-            ),
+      LeftTabBarView(
+          controller: _innerTabController,
+          tabs: [
+            Text('当月热搜榜'),
+            Text('年度热搜榜'),
           ],
-        )
+          children: [
+            _buildHotList(_hotMonth),
+            _buildHotList(_hotYear),
+          ]
       )
     );
-    return widgets;
+    return Column(
+      children: widgets,
+    );
   }
   _buildHotList(List<Word> list){
     List<Widget> widgets = [];
     for(int i=0;i< list.length;i++){
-      if(i==0){
-        widgets.add(
-          InkWell(
-            onTap: (){
-              _textEditingController.text = list[i].words;
-              _search();
-            },
-            child: Container(
-              margin: const EdgeInsets.only(left: 20,top: 20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('1',style: TextStyle(color: Colors.deepOrange,fontSize: 18,fontWeight: FontWeight.bold),),
-                    const Padding(padding: EdgeInsets.only(left: 20)),
-                    Text(list[i].words,style: TextStyle(fontSize: 15),),
-                  ]
-              ),
-            ),
-          )
-        );
-      }
-      if(i==1){
-        widgets.add(
-            InkWell(
-              onTap: (){
-                _textEditingController.text = list[i].words;
-                _search();
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 20,top: 15),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text('2',style: TextStyle(color: Colors.orangeAccent,fontSize: 18,fontWeight: FontWeight.bold),),
-                      const Padding(padding: EdgeInsets.only(left: 20)),
-                      Text(list[i].words,style: TextStyle(fontSize: 15),),
-                    ]
-                ),
-              ),
-            )
-
-        );
-      }
-      if(i==2){
-        widgets.add(
-            InkWell(
-              onTap: (){
-                _textEditingController.text = list[i].words;
-                _search();
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 20,top: 15),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text('3',style: TextStyle(color: Colors.blue,fontSize: 18,fontWeight: FontWeight.bold),),
-                      const Padding(padding: EdgeInsets.only(left: 20)),
-                      Text(list[i].words,style: TextStyle(fontSize: 15),),
-                    ]
-                ),
-              ),
-            )
-
-        );
-      }
-      if(i>2){
-        widgets.add(
-            InkWell(
-              onTap: (){
-                _textEditingController.text = list[i].words;
-                _search();
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 20,top: 15),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text('${i+1}',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                      const Padding(padding: EdgeInsets.only(left: 20)),
-                      Text(list[i].words,style: TextStyle(fontSize: 15),),
-                    ]
-                ),
-              ),
-            )
-
-        );
-      }
+      widgets.add(Text(list[i].words,style: const TextStyle(fontSize: 15),));
     }
-    return ListView(
+    return Top3List(
       children: widgets,
+      callback: (int index){
+        _search(list[index].words);
+      },
     );
   }
   @override
   void dispose() {
     alive = false;
     _innerTabController.dispose();
-    _textEditingController.dispose();
     super.dispose();
   }
 }

@@ -111,28 +111,7 @@ class _SearchResultPage extends State<SearchResultPage>{
       ),
       footer: Container(
         margin: const EdgeInsets.only(top:30,bottom: 30),
-        child: Center(child: total > page ? _getLoading() : (Text(_list.isEmpty ? '找不到搜索结果' : '没有更多了')),),
-      ),
-    );
-  }
-  _getLoading(){
-    return Container(
-      color: Colors.transparent,
-      child: Center(
-        child: Container(
-          width: 60,
-          height: 60,
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SpinKitFadingCircle(
-                color: Colors.white,
-                size: 46.0,
-              )
-            ],
-          ),
-        ),
+        child: refresh ? null : Center(child: page < total ? GeneralRefresh.getLoading() : (Text(_list.isEmpty ? '找不到搜索结果' : '没有更多了')),),
       ),
     );
   }
