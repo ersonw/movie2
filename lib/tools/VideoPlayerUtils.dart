@@ -21,20 +21,23 @@ class VideoPlayerUtils{
   static Duration get duration => _instance._duration; // 视频总时长
   static Duration get position => _instance._position; // 当前视频播放进度
   static double get aspectRatio => _instance._aspectRatio; // 视频播放比例
+  static bool _stopLock = false;
 
   // 播放、暂停、切换视频等播放操作
   static void playerHandle(String url,{bool autoPlay = true,bool looping = false}) async{
-    if(url == _instance._url){ //
+    if(url == _instance._url){
       if(_instance._controller!.value.isPlaying){ // 播放中，点击暂停
         await _instance._controller!.pause();
         _instance._updatePlayerState(VideoPlayerState.paused);
       }else{ //  暂停中，点击播放
+        if(_stopLock == true) return;
         await _instance._controller!.play();
         _instance._updatePlayerState(VideoPlayerState.playing);
       }
     }else{ // 新的播放
       if(url.isEmpty) return;
       // 重置播放器
+      _stopLock = false;
       _instance._resetController();
       _instance._controller = VideoPlayerController.network(url);
       try {
@@ -100,6 +103,16 @@ class VideoPlayerUtils{
     _instance._positionPool.removeWhere((element) => element.key == key);
   }
 
+  //暂停并且锁住
+  static Future<void> lock()async{
+    await _instance._controller!.pause();
+    _stopLock = true;
+  }
+  //解锁并播放
+  static Future<void> unLock()async{
+    await _instance._controller!.play();
+    _stopLock = false;
+  }
   // 获取音量
   static Future<double> getVolume() async{
     return await BVUtils.volume;
